@@ -1,3 +1,22 @@
 version: 0.2
 
 run-as: ubuntu
+
+phases:
+    install:
+        commands:
+            - echo "Entering installation phase"
+            - echo "Exiting installation phase"
+    pre-build:
+        commands:
+            - echo "Entering pre-build phase"
+            - echo "Exiting pre-build phase"
+    build:
+        commands:
+            - echo "Entering build phase"
+            - python3 -c "from scraper.test import lambda_handler; lambda_handler(\"dummy event\", \"dummy context\")"
+            - echo "Exiting build phase"
+    post-build:
+        commands:
+            - echo "Entering post-build phase"
+            - echo "Exiting post-build phase"
