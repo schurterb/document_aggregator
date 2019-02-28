@@ -7,7 +7,7 @@ phases:
         commands:
             - echo "Entering installation phase"
             - echo "Exiting installation phase"
-    pre-build:
+    pre_build:
         commands:
             - echo "Entering pre-build phase"
             - echo "Exiting pre-build phase"
@@ -16,7 +16,7 @@ phases:
             - echo "Entering build phase"
             - python3 -c "from scraper.test import lambda_handler; lambda_handler(\"dummy event\", \"dummy context\")"
             - echo "Exiting build phase"
-    post-build:
+    post_build:
         commands:
             - echo "Entering post-build phase"
             - echo "Exiting post-build phase"
