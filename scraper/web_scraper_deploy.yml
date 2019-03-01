@@ -1,0 +1,22 @@
+Resources:
+    LambdaTest:
+        Type: "AWS::Lambda::Function"
+        Properties: 
+          Code:
+            S3Bucket: "documentation-aggregator"
+            S3Key: "deploy/scraper/test.py"
+          Description: "Testing deploying code straight to aws lambda through code pipeline
+          FunctionName: "TestFunction0"
+          Handler: "lambda_handler"
+          MemorySize: 64
+          ReservedConcurrentExecutions: 5
+          Role: "arn:aws:iam::353290830413:role/lambda_test_role"
+          Runtime: "python3.6"
+          TracingConfig:
+            Mode:
+                "Active"
+          Tags: 
+          -
+            Key: "project"
+            Value: "document_aggregator"
+
