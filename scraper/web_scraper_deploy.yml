@@ -6,7 +6,7 @@ Resources:
             S3Bucket: "documentation-aggregator"
             S3Key: "deploy/scraper/test.py"
           Description: "Testing deploying code straight to aws lambda through code pipeline
-          FunctionName: "TestFunction0"
+          FunctionName: "lambda_handler"
           Handler: "lambda_handler"
           MemorySize: 64
           ReservedConcurrentExecutions: 5
