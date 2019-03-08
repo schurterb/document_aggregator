@@ -7,6 +7,7 @@
 
 
 import boto3
+import json
 
 lambda_client = boto3.client('lambda')
 
@@ -28,5 +29,5 @@ def invokeLambdaFunction(functionName, eventData):
                                        InvocationType='RequestResponse')
     return invoke_response
 
-print(invokeLambdaFunction("storeObjectInS3", data))
+print(invokeLambdaFunction("storeObjectInS3", json.dumps(data)))
 
