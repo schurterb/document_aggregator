@@ -22,8 +22,11 @@ data = { "bucket": project_bucket, "key": filebase+filename, "body": body_data}
     
 def invokeLambdaFunction(functionName, eventData):
     
-    with open("tmp.txt", 'r') as f:
+    print("Storing data in a temporary file")
+    with open("tmp.txt", 'w') as f:
         f.write(json.dumps(eventData))
+        f.flush()
+    print("Finished storing data in a temporary file")
     
     invoke_response = lambda_client.invoke(FunctionName=functionName,
                                        LogType='Tail',
