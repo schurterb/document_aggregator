@@ -28,7 +28,7 @@ def invokeLambdaFunction(functionName, eventData):
     
     invoke_response = lambda_client.invoke(FunctionName=functionName,
                                        LogType="Tail",
-                                       Payload=eventData,
+                                       Payload=json.dumps(eventData, encoding='utf-8'),
                                        InvocationType="RequestResponse")
     return invoke_response
 
