@@ -1,0 +1,3 @@
+#!/bin/bash
+
+python3 -c "from scraper.test import lambda_handler; lambda_handler(\"dummy event\", \"dummy context\")"
