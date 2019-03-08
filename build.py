@@ -17,7 +17,7 @@ project_bucket = "documentation-aggregator"
 data = dict()
 data["bucket"] = project_bucket
 data["key"] = filebase+filename
-with open(data["key"], 'rb') as f:
+with open(filename, 'rb') as f:
     data["body"] = f.read()
 
     
