@@ -24,7 +24,7 @@ def invokeLambdaFunction(functionName, eventData):
     
     print("Storing data in a temporary file")
     with open("tmp.txt", 'w') as f:
-        f.write(json.dumps(eventData))
+        f.write(eventData))
         f.flush()
     print("Finished storing data in a temporary file")
     
