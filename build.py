@@ -21,9 +21,13 @@ with open(filename, 'rb') as f:
 data = { "bucket": project_bucket, "key": filebase+filename, "body": body_data}
     
 def invokeLambdaFunction(functionName, eventData):
+    
+    with open("tmp.txt", 'r') as f:
+        f.write(json.dumps(eventData))
+    
     invoke_response = lambda_client.invoke(FunctionName=functionName,
                                        LogType='Tail',
-                                       Payload=str.encode(json.dumps(eventData)),
+                                       Payload=open("tmp.txt", 'r'),
                                        InvocationType='RequestResponse')
     return invoke_response
 
