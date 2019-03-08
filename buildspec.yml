@@ -4,7 +4,8 @@ phases:
     install:
         commands:
             - echo "Entering installation phase"
-            - ./loadDependencies
+            - pip install boto3 --upgrade --user
+            - pip3 install boto3 --upgrade --user
             - echo "Exiting installation phase"
     pre_build:
         commands:
