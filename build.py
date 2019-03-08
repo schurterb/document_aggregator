@@ -6,6 +6,8 @@
 # In[1]:
 
 
+import boto3
+
 lambda_client = boto3.client('lambda')
 
 filebase = "deploy/"
