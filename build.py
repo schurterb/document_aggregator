@@ -24,7 +24,7 @@ data = { "bucket": project_bucket, "key": filebase+filename, "body": body_data}
 def invokeLambdaFunction(functionName, eventData):
     invoke_response = lambda_client.invoke(FunctionName=functionName,
                                        LogType='Tail',
-                                       Payload=json.dumps(eventData),
+                                       Payload=eventData,
                                        InvocationType='RequestResponse')
     return invoke_response
 
