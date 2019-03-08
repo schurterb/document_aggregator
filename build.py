@@ -18,21 +18,18 @@ project_bucket = "documentation-aggregator"
 with open(filename, 'rb') as f:
     body_data = f.read()
     
-data = { "bucket": project_bucket, "key": filebase+filename, "body": body_data}
+data = { "bucket": project_bucket, "key": filebase+filename, "body": str(body_data) }
     
 def invokeLambdaFunction(functionName, eventData):
     
-    print("Storing data in a temporary file")
-    with open("tmp.txt", 'w') as fp:
-        print("type(eventData) = ",type(eventData))
-        print("type(fp) = ",type(fp))
-        json.dump(eventData, fp)
-    print("Finished storing data in a temporary file")
+    #with open("tmp.txt", 'w') as fp:
+    #    json.dump(eventData, fp)
+    #Payload=open("tmp.txt", 'r', encoding='utf-8'),
     
     invoke_response = lambda_client.invoke(FunctionName=functionName,
-                                       LogType='Tail',
-                                       Payload=open("tmp.txt", 'r'),
-                                       InvocationType='RequestResponse')
+                                       LogType="Tail",
+                                       Payload=eventData,
+                                       InvocationType="RequestResponse")
     return invoke_response
 
 print(invokeLambdaFunction("storeObjectInS3", data))
