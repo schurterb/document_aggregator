@@ -15,19 +15,18 @@ filebase = "deploy/"
 filename = "scraper/test.py"
 project_bucket = "documentation-aggregator"
 
-data = dict()
-data["bucket"] = project_bucket
-data["key"] = filebase+filename
 with open(filename, 'rb') as f:
-    data["body"] = f.read()
+    body_data = f.read()
+    
+data = { "bucket": project_bucket, "key": filebase+filename, "body": body_data}
 
     
 def invokeLambdaFunction(functionName, eventData):
     invoke_response = lambda_client.invoke(FunctionName=functionName,
                                        LogType='Tail',
-                                       Payload=eventData,
+                                       Payload=json.dumps(eventData),
                                        InvocationType='RequestResponse')
     return invoke_response
 
-print(invokeLambdaFunction("storeObjectInS3", json.dumps(data)))
+print(invokeLambdaFunction("storeObjectInS3", data))
 
