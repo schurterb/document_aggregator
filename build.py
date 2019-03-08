@@ -24,6 +24,8 @@ def invokeLambdaFunction(functionName, eventData):
     
     print("Storing data in a temporary file")
     with open("tmp.txt", 'w') as fp:
+        print("type(eventData) = ",type(eventData))
+        print("type(fp) = ",type(fp))
         json.dump(eventData, fp)
     print("Finished storing data in a temporary file")
     
