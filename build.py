@@ -28,7 +28,7 @@ def invokeLambdaFunction(functionName, eventData):
     
     invoke_response = lambda_client.invoke(FunctionName=functionName,
                                        LogType="Tail",
-                                       Payload=File(open("tmp.txt", 'rb')),
+                                       Payload=open("tmp.txt", 'rb'),
                                        InvocationType="RequestResponse")
     return invoke_response
 
