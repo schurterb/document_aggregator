@@ -16,10 +16,15 @@ filebase = "deploy/"
 filename = "scraper/test.py"
 project_bucket = "documentation-aggregator"
 
-with open(filename, 'rb') as f:
+
+#Compress the input file
+with ZipFile(filename, 'w') as zf:
+    zf.write(filename+'.zip')
+    
+with open(filename+'.zip', 'rb') as f:
     body_data = f.read()
     
-data = { "bucket": project_bucket, "key": filebase+filename, "body": str(body_data) }
+data = { "bucket": project_bucket, "key": filebase+filename+'.zip', "body": str(body_data) }
     
 def invokeLambdaFunction(functionName, eventData):
     
@@ -27,14 +32,10 @@ def invokeLambdaFunction(functionName, eventData):
     with open("tmp.txt", 'w') as wf:
         json.dump(eventData, wf)
         
-    #Compress the text file
-    with ZipFile('tmp.zip', 'w') as zf:
-        zf.write('tmp.txt')
-    
-    with open("tmp.txt", 'rb') as rbzf:
+    with open("tmp.txt", 'rb') as rbf:
         invoke_response = lambda_client.invoke(FunctionName=functionName,
                                                LogType="Tail",
-                                               Payload=rbzf,
+                                               Payload=rbf,
                                                InvocationType="RequestResponse")
     return invoke_response
 
