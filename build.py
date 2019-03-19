@@ -22,7 +22,7 @@ data = { "bucket": project_bucket, "key": filebase+filename, "body": str(body_da
     
 def invokeLambdaFunction(functionName, eventData):
     
-    with open("tmp.txt", 'wb') as wbf:
+    with open("tmp.txt", 'w') as wbf:
         json.dump(eventData, wbf)
     
     with open("tmp.txt", 'rb') as rbf:
