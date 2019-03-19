@@ -22,13 +22,18 @@ data = { "bucket": project_bucket, "key": filebase+filename, "body": str(body_da
     
 def invokeLambdaFunction(functionName, eventData):
     
-    with open("tmp.txt", 'w') as wbf:
-        json.dump(eventData, wbf)
+    #Write data to a text file
+    with open("tmp.txt", 'w') as wf:
+        json.dump(eventData, wf)
+        
+    #Compress the text file
+    with ZipFile('tmp.zip', 'w') as zf:
+        zf.write('tmp.txt')
     
-    with open("tmp.txt", 'rb') as rbf:
+    with open("tmp.txt", 'rb') as rbzf:
         invoke_response = lambda_client.invoke(FunctionName=functionName,
                                                LogType="Tail",
-                                               Payload=rbf,
+                                               Payload=rbzf,
                                                InvocationType="RequestResponse")
     return invoke_response
 
