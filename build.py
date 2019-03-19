@@ -13,14 +13,20 @@ from zipfile import ZipFile
 lambda_client = boto3.client('lambda')
 
 filebase = "deploy/"
-filename = "scraper/test.py"
+filedir = "scraper/"
+filename = "test.py"
+archivename = "test.zip"
 project_bucket = "documentation-aggregator"
 
-   
-with open(filename, 'rb') as f:
+
+#Compress the input file
+with ZipFile(filedir+filename, 'w') as zf:
+    zf.write(archivename)
+    
+with open(archivename, 'rb') as f:
     body_data = f.read()
     
-data = { "bucket": project_bucket, "key": filebase+filename, "body": str(body_data) }
+data = { "bucket": project_bucket, "key": filebase+filedir+archivename, "body": str(body_data) }
     
 def invokeLambdaFunction(functionName, eventData):
     
