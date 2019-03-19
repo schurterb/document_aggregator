@@ -22,14 +22,15 @@ data = { "bucket": project_bucket, "key": filebase+filename, "body": str(body_da
     
 def invokeLambdaFunction(functionName, eventData):
     
-    with open("tmp.txt", 'w', encoding='utf-8') as fp:
+    with open("tmp.txt", 'w', encoding='utf-8') as wf:
         json.dump(eventData, fp)
     #Payload=open("tmp.txt", 'r', encoding='utf-8'),
     
-    invoke_response = lambda_client.invoke(FunctionName=functionName,
-                                       LogType="Tail",
-                                       Payload=open("tmp.txt", 'rb'),
-                                       InvocationType="RequestResponse")
+    with open("tmp.txt", 'rb') as rbf:
+        invoke_response = lambda_client.invoke(FunctionName=functionName,
+                                               LogType="Tail",
+                                               Payload=rbf,
+                                               InvocationType="RequestResponse")
     return invoke_response
 
 print(invokeLambdaFunction("storeObjectInS3", data))
