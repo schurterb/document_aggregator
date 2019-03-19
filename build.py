@@ -20,8 +20,8 @@ project_bucket = "documentation-aggregator"
 
 
 #Compress the input file
-with ZipFile(filedir+filename, 'w') as zf:
-    zf.write(archivename)
+with ZipFile(archivename, 'w') as zf:
+    zf.write(filedir+filename)
     
 with open(archivename, 'rb') as f:
     body_data = f.read()
