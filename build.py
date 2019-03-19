@@ -8,6 +8,7 @@
 
 import boto3
 import json
+from zipfile import ZipFile
 
 lambda_client = boto3.client('lambda')
 
