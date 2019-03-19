@@ -6,7 +6,7 @@ Resources:
         Properties: 
           Code:
             S3Bucket: "documentation-aggregator"
-            S3Key: "deploy/scraper/test.py"
+            S3Key: "deploy/scraper/test.zip"
           Description: "Testing deploying code straight to aws lambda through code pipeline"
           Handler: ".scraper.test.lambda_handler"
           MemorySize: 128
