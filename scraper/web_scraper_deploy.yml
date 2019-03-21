@@ -5,8 +5,14 @@ Resources:
         Type: "AWS::Lambda::Function"
         Properties: 
           Code:
-            S3Bucket: "documentation-aggregator"
-            S3Key: "deploy/scraper/test.zip"
+            ZipFile: |
+               import boto3
+               import json
+               print('Loading Test Function')
+               def lambda_handler(event, context):
+                  message = "Testing lambda and code pipeline"
+                  print(message)
+                  return message
           Description: "Testing deploying code straight to aws lambda through code pipeline"
           Handler: "scraper.test.lambda_handler"
           MemorySize: 128

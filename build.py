@@ -26,7 +26,7 @@ with ZipFile(archivename, 'w') as zf:
 with open(archivename, 'rb') as f:
     body_data = f.read()
     
-data = { "bucket": project_bucket, "key": filebase+filedir+archivename, "body": str(body_data) }
+data = { "bucket": project_bucket,          "key": filebase+filedir+archivename,          "body": str(body_data)          "acl": "bucket-owner-read" }
     
 def invokeLambdaFunction(functionName, eventData):
     
