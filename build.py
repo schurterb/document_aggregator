@@ -13,49 +13,45 @@ working_dir = ""
 
 # For this test, we will inject the python code into the YAML for building the lambda functions.
 
-# In[26]:
+# In[64]:
 
 
-#First find load the YAML file that CloudFormation will use
+#Method for injecting python code into YAML files for CloudFormation
 import yaml
 import json
+
+"""
+@param yamlFile  the path to the yaml file to modify
+@param filesToInject  a map contianing the path to python files to inject
+                      and the lambda function they belong to
+"""
+def injectLambdaCodeIntoYAML(yamlFile, filesToInject):
+    
+    with open(yamlFile, 'r') as f:
+        yamlData = yaml.load(f.read())
+       
+    for lambdaName in filesToInject.keys():
+        for resource in yamlData['Resources']:
+            if lambdaName == resource:
+                if yamlData['Resources'][lambdaName]['Type'] == 'AWS::Lambda::Function':
+                    try:
+                        with open(filesToInject[lambdaName], 'r') as f:
+                            yamlData['Resources'][lambdaName]['Properties']['Code']['ZipFile'] = f.read()
+                    except Exception as e:
+                        print("Failed to load",filesToInject[lambdaName],"for lambda function",lambdaName,"  Reason:",str(e))
+                        
+    with open(yamlFile, 'w') as f:
+        f.write(yaml.dump(yamlData))
+
+
+# In[65]:
+
+
+#Test the above method definition
+
 cfyFile = working_dir+"scraper/web_scraper_deploy.yml"
-with open(cfyFile, 'r') as yamlFile:
-    yamlData = yaml.load(yamlFile.read())
-print(yamlData)
+filesToInject = dict()
+filesToInject["LambdaTest"] = working_dir+"scraper/test.py"
 
-
-# In[17]:
-
-
-#Now load the python code to inject
-pyFile = working_dir+"scraper/test.py"
-with open(pyFile, 'r') as f:
-    pyData = f.read()
-print(pyData)
-
-
-# In[38]:
-
-
-#Inject the python string into the yaml json at the the Code.ZipFile endpoint
-print("")
-print("Before:")
-print(yamlData['Resources']['LambdaTest']['Properties']['Code']['ZipFile'])
-print("")
-
-yamlData['Resources']['LambdaTest']['Properties']['Code']['ZipFile'] = pyData
-
-print("")
-print("After:")
-print(yamlData['Resources']['LambdaTest']['Properties']['Code']['ZipFile'])
-print("")
-
-
-# In[39]:
-
-
-#Finally, lets store the updated YAML file
-with open(cfyFile, 'w') as yamlFile:
-    yamlFile.write(yaml.dump(yamlData))
+injectLambdaCodeIntoYAML(cfyFile, filesToInject)
 

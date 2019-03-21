@@ -3,12 +3,7 @@ Description: Testing CloudFormation for general systems deployment
 Resources:
   LambdaTest:
     Properties:
-      Code: {ZipFile: "\n# coding: utf-8\n\n# This is a simple test to verify that\
-          \ I can use this as a development environment and push to code pipeline\
-          \ and deploy to lambda.\n\n# In[1]:\n\n\nimport boto3\nimport json\n\nprint('Loading\
-          \ Test Function')\n\ndef lambda_handler(event, context):\n    message =\
-          \ \"Testing lambda and code pipeline\"\n    print(message)\n    return message\n\
-          \n"}
+      Code: {ZipFile: ""}
       Description: Testing deploying code straight to aws lambda through code pipeline
       Handler: index.lambda_handler
       MemorySize: 128
