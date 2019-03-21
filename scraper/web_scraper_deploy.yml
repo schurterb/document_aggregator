@@ -1,29 +1,21 @@
-AWSTemplateFormatVersion: "2010-09-09"
-Description: "Testing CloudFormation for general systems deployment"
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Testing CloudFormation for general systems deployment
 Resources:
-    LambdaTest:
-        Type: "AWS::Lambda::Function"
-        Properties: 
-          Code:
-            ZipFile: |
-               import boto3
-               import json
-               print('Loading Test Function')
-               def lambda_handler(event, context):
-                  message = "Testing lambda and code pipeline 2"
-                  print(message)
-                  return message
-          Description: "Testing deploying code straight to aws lambda through code pipeline"
-          Handler: "index.lambda_handler"
-          MemorySize: 128
-          ReservedConcurrentExecutions: 5
-          Role: "arn:aws:iam::353290830413:role/lambda_test_role"
-          Runtime: "python3.6"
-          TracingConfig:
-            Mode:
-                "Active"
-          Tags: 
-          -
-            Key: "project"
-            Value: "document_aggregator"
-
+  LambdaTest:
+    Properties:
+      Code: {ZipFile: "\n# coding: utf-8\n\n# This is a simple test to verify that\
+          \ I can use this as a development environment and push to code pipeline\
+          \ and deploy to lambda.\n\n# In[1]:\n\n\nimport boto3\nimport json\n\nprint('Loading\
+          \ Test Function')\n\ndef lambda_handler(event, context):\n    message =\
+          \ \"Testing lambda and code pipeline\"\n    print(message)\n    return message\n\
+          \n"}
+      Description: Testing deploying code straight to aws lambda through code pipeline
+      Handler: index.lambda_handler
+      MemorySize: 128
+      ReservedConcurrentExecutions: 5
+      Role: arn:aws:iam::353290830413:role/lambda_test_role
+      Runtime: python3.6
+      Tags:
+      - {Key: project, Value: document_aggregator}
+      TracingConfig: {Mode: Active}
+    Type: AWS::Lambda::Function

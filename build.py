@@ -1,45 +1,60 @@
 
 # coding: utf-8
 
-# This notebook is for creating the python script necessary to build the documentation aggregator project
+# This notebook is for creating the python script necessary to build the documentation aggregator project.
 
-# In[2]:
+# In[4]:
 
 
-import boto3
+#General
+working_dir = "document_aggregator/"
+
+
+# For this test, we will inject the python code into the YAML for building the lambda functions.
+
+# In[26]:
+
+
+#First find load the YAML file that CloudFormation will use
+import yaml
 import json
-from zipfile import ZipFile
-
-lambda_client = boto3.client('lambda')
-
-filebase = "deploy/"
-filedir = "scraper/"
-filename = "test.py"
-archivename = "test.zip"
-project_bucket = "documentation-aggregator"
+cfyFile = working_dir+"scraper/web_scraper_deploy.yml"
+with open(cfyFile, 'r') as yamlFile:
+    yamlData = yaml.load(yamlFile.read())
+print(yamlData)
 
 
-#Compress the input file
-with ZipFile(archivename, 'w') as zf:
-    zf.write(filedir+filename)
-    
-with open(archivename, 'rb') as f:
-    body_data = f.read()
-    
-data = { "bucket": project_bucket,          "key": filebase+filedir+archivename,          "body": str(body_data),          "acl": "bucket-owner-read" }
-    
-def invokeLambdaFunction(functionName, eventData):
-    
-    #Write data to a text file
-    with open("tmp.txt", 'w') as wf:
-        json.dump(eventData, wf)
-        
-    with open("tmp.txt", 'rb') as rbf:
-        invoke_response = lambda_client.invoke(FunctionName=functionName,
-                                               LogType="Tail",
-                                               Payload=rbf,
-                                               InvocationType="RequestResponse")
-    return invoke_response
+# In[17]:
 
-print(invokeLambdaFunction("storeObjectInS3", data))
+
+#Now load the python code to inject
+pyFile = working_dir+"scraper/test.py"
+with open(pyFile, 'r') as f:
+    pyData = f.read()
+print(pyData)
+
+
+# In[38]:
+
+
+#Inject the python string into the yaml json at the the Code.ZipFile endpoint
+print("")
+print("Before:")
+print(yamlData['Resources']['LambdaTest']['Properties']['Code']['ZipFile'])
+print("")
+
+yamlData['Resources']['LambdaTest']['Properties']['Code']['ZipFile'] = pyData
+
+print("")
+print("After:")
+print(yamlData['Resources']['LambdaTest']['Properties']['Code']['ZipFile'])
+print("")
+
+
+# In[ ]:
+
+
+#Finally, lets store the updated YAML file
+with open(cfyFile, 'w') as yamlFile:
+    yamlFile.write(yaml.dump(yamlData))
 
