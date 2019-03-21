@@ -7,6 +7,7 @@
 
 
 #General
+working_dir = ""
 working_dir = "document_aggregator/"
 
 
@@ -51,7 +52,7 @@ print(yamlData['Resources']['LambdaTest']['Properties']['Code']['ZipFile'])
 print("")
 
 
-# In[ ]:
+# In[39]:
 
 
 #Finally, lets store the updated YAML file
