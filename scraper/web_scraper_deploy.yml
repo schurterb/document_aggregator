@@ -10,11 +10,11 @@ Resources:
                import json
                print('Loading Test Function')
                def lambda_handler(event, context):
-                  message = "Testing lambda and code pipeline"
+                  message = "Testing lambda and code pipeline 2"
                   print(message)
                   return message
           Description: "Testing deploying code straight to aws lambda through code pipeline"
-          Handler: "scraper.test.lambda_handler"
+          Handler: "index.lambda_handler"
           MemorySize: 128
           ReservedConcurrentExecutions: 5
           Role: "arn:aws:iam::353290830413:role/lambda_test_role"
