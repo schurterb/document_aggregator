@@ -55,3 +55,11 @@ filesToInject["LambdaTest"] = working_dir+"scraper/test.py"
 
 injectLambdaCodeIntoYAML(cfyFile, filesToInject)
 
+
+# For the second part, lets deploy a static web page to S3.
+
+# In[ ]:
+
+
+import boto3
+
