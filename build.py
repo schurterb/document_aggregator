@@ -62,6 +62,7 @@ injectLambdaCodeIntoYAML(cfyFile, filesToInject)
 
 
 import boto3
+import json
 
 lambda_client = boto3.client('lambda')
 
@@ -77,10 +78,16 @@ data = { "bucket": project_bucket,         "key": destinationFile,         "body
 
 
 def invokeLambdaFunction(functionName, eventData):
-    invoke_response = lambda_client.invoke(FunctionName=functionName,
-                                       LogType='Tail',
-                                       Payload=eventData,
-                                       InvocationType='RequestResponse')
+    
+    #Write data to a text file
+    with open("tmp.txt", 'w') as wf:
+        json.dump(eventData, wf)
+    
+    with open("tmp.txt", 'rb') as rbf:
+        invoke_response = lambda_client.invoke(FunctionName=functionName,
+                                               LogType='Tail',
+                                               Payload=rbf,
+                                               InvocationType='RequestResponse')
     return invoke_response
 
 print(invokeLambdaFunction("storeObjectInS3", data))
