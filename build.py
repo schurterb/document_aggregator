@@ -65,14 +65,15 @@ import boto3
 
 lambda_client = boto3.client('lambda')
 
-filepath = working_dir+"deploy/web/index.html"
+sourceFile = working_dir+"web/index.html"
+destinationFile = "index.html"
 project_bucket = "documentation-aggregator-web"
 
 
-with open(filepath, 'r') as f:
+with open(sourceFile, 'r') as f:
     body_data = f.read()
 
-data = { "bucket": project_bucket,         "key": filebase+filedir+archivename,         "body": str(body_data),         "acl": "bucket-owner-read" }
+data = { "bucket": project_bucket,         "key": destinationFile,         "body": str(body_data),         "acl": "bucket-owner-read" }
 
 
 def invokeLambdaFunction(functionName, eventData):
@@ -82,5 +83,5 @@ def invokeLambdaFunction(functionName, eventData):
                                        InvocationType='RequestResponse')
     return invoke_response
 
-invokeLambdaFunction("storeObjectInS3", data)
+print(invokeLambdaFunction("storeObjectInS3", data))
 
