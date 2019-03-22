@@ -58,8 +58,29 @@ injectLambdaCodeIntoYAML(cfyFile, filesToInject)
 
 # For the second part, lets deploy a static web page to S3.
 
-# In[ ]:
+# In[66]:
 
 
 import boto3
+
+lambda_client = boto3.client('lambda')
+
+filepath = working_dir+"deploy/web/index.html"
+project_bucket = "documentation-aggregator-web"
+
+
+with open(filepath, 'r') as f:
+    body_data = f.read()
+
+data = { "bucket": project_bucket,         "key": filebase+filedir+archivename,         "body": str(body_data),         "acl": "bucket-owner-read" }
+
+
+def invokeLambdaFunction(functionName, eventData):
+    invoke_response = lambda_client.invoke(FunctionName=functionName,
+                                       LogType='Tail',
+                                       Payload=eventData,
+                                       InvocationType='RequestResponse')
+    return invoke_response
+
+invokeLambdaFunction("storeObjectInS3", data)
 
