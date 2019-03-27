@@ -16,5 +16,7 @@ def lambda_handler(event, context):
     print("Test Message:", message)
     print("Event:", event)
     print("Context:", context)
+    #test comment - seeing if the "uploaded file must be a non-empty zip" error on cloudformation
+    # is because of no changes to the file or something else...
     return message
 
