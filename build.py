@@ -1,4 +1,4 @@
-
+#!/usr/bin/env python
 # coding: utf-8
 
 # This notebook is for creating the python script necessary to build the documentation aggregator project.
@@ -74,7 +74,7 @@ project_bucket = "documentation-aggregator-web"
 with open(sourceFile, 'r') as f:
     body_data = f.read()
 
-data = { "bucket": project_bucket,         "key": destinationFile,         "body": str(body_data),         "acl": "bucket-owner-read" }
+data = { "bucket": project_bucket,         "key": destinationFile,         "body": str(body_data),         "acl": "public-read" }
 
 
 def invokeLambdaFunction(functionName, eventData):
@@ -91,4 +91,10 @@ def invokeLambdaFunction(functionName, eventData):
     return invoke_response
 
 print(invokeLambdaFunction("storeObjectInS3", data))
+
+
+# In[ ]:
+
+
+
 
