@@ -79,6 +79,7 @@ data = { "bucket": project_bucket,         "key": destinationFile,         "body
 
 def invokeLambdaFunction(functionName, eventData):
     
+    print("Test 2 - fixed bucket policy")
     print(data)
     
     #Write data to a text file
