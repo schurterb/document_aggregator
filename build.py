@@ -79,6 +79,8 @@ data = { "bucket": project_bucket,         "key": destinationFile,         "body
 
 def invokeLambdaFunction(functionName, eventData):
     
+    print(data)
+    
     #Write data to a text file
     with open("tmp.txt", 'w') as wf:
         json.dump(eventData, wf)
