@@ -71,15 +71,15 @@ destinationFile = "index.html"
 project_bucket = "documentation-aggregator-web"
 
 
-with open(sourceFile, 'r') as f:
+with open(sourceFile, 'rb') as f:
     body_data = f.read()
 
-data = { "bucket": project_bucket,         "key": destinationFile,         "body": str(body_data),         "content_type": "text/html" }
+data = { "bucket": project_bucket,          "key": destinationFile,          "body": str(body_data),          "content_type": "text/html" }
+#Cannot have ACL set to public for static webpage
 
 
 def invokeLambdaFunction(functionName, eventData):
     
-    print("Test 2 - fixed bucket policy")
     print(data)
     
     #Write data to a text file
