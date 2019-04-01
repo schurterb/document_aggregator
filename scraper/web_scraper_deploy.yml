@@ -2,6 +2,7 @@ AWSTemplateFormatVersion: '2010-09-09'
 Description: Testing CloudFormation for general systems deployment
 Resources:
   LambdaTest:
+    Type: AWS::Lambda::Function
     Properties:
       Code: {ZipFile: ""}
       Description: Testing deploying code straight to aws lambda through code pipeline
@@ -13,4 +14,29 @@ Resources:
       Tags:
       - {Key: project, Value: document_aggregator}
       TracingConfig: {Mode: Active}
-    Type: AWS::Lambda::Function
+  
+  TopicTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: "DocumentationAggregatorTopics"
+      AttributeDefinitions:
+        -
+        AttributeName: "Id"
+        AttributeType: "N"
+        -
+        AttributeName: "Topic"
+        AttributeType: "S"
+        -
+        AttributeName: "DateSubmitted"
+        AttributeType: "S"
+        -
+        AttributeName: "DateProcessed"
+        AttributeType: "S"        
+      KeySchema:
+        AttributeName: "Id"
+        KeyType: "HASH"
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      
+      

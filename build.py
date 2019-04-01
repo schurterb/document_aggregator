@@ -3,17 +3,17 @@
 
 # This notebook is for creating the python script necessary to build the documentation aggregator project.
 
-# In[4]:
+# In[6]:
 
 
 #General
 working_dir = ""
-#working_dir = "document_aggregator/"
+working_dir = "document_aggregator/"
 
 
 # For this test, we will inject the python code into the YAML for building the lambda functions.
 
-# In[64]:
+# In[7]:
 
 
 #Method for injecting python code into YAML files for CloudFormation
@@ -44,7 +44,7 @@ def injectLambdaCodeIntoYAML(yamlFile, filesToInject):
         f.write(yaml.dump(yamlData))
 
 
-# In[65]:
+# In[8]:
 
 
 #Test the above method definition
@@ -58,7 +58,7 @@ injectLambdaCodeIntoYAML(cfyFile, filesToInject)
 
 # For the second part, lets deploy a static web page to S3.
 
-# In[66]:
+# In[9]:
 
 
 import boto3
