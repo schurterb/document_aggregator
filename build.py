@@ -8,7 +8,7 @@
 
 #General
 working_dir = ""
-working_dir = "document_aggregator/"
+# working_dir = "document_aggregator/"
 
 
 # For this test, we will inject the python code into the YAML for building the lambda functions.
