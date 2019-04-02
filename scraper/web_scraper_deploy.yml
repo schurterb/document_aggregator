@@ -1,5 +1,20 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: Testing CloudFormation for general systems deployment
+Parameters:
+  ReadCapacityUnits:
+    Description: "Provisioned Read Throughput for DynamoDB"
+    Type: "Number"
+    Default: 1
+    MinValue: 1
+    MaxValue: 5
+    ConstraintDescription: "Keep throughput between 1 and 5 to stay within free tier"
+  WriteCapacityUnits:
+    Description: "Provisioned Write Throughput for DynamoDB"
+    Type: "Number"
+    Default: 1
+    MinValue: 1
+    MaxValue: 5
+    ConstraintDescription: "Keep throughput between 1 and 5 to stay within free tier"
 Resources:
   LambdaTest:
     Type: AWS::Lambda::Function
@@ -33,10 +48,35 @@ Resources:
           AttributeName: "DateProcessed"
           AttributeType: "S"        
       KeySchema:
-        AttributeName: "Id"
-        KeyType: "HASH"
+        -
+          AttributeName: "Id"
+          KeyType: "HASH"
       ProvisionedThroughput:
-        ReadCapacityUnits: 5
-        WriteCapacityUnits: 5
+        ReadCapacityUnits:
+          Ref: ReadCapacityUnits
+        WriteCapacityUnits:
+          Ref: WriteCapacityUnits
+      GlobalSecondaryIndexes:
+        -
+          IndexName: "Topic-DateSubmitted-DateProcessed"
+          KeySchema:
+            -
+             AttributeName: "Topic"
+             KeyType: "HASH"
+            -
+             AttributeName: "DateSubmitted"
+             KeyType: "RANGE"
+            -
+             AttributeName: "DateProcessed"
+             KeyType: "RANGE"
+          Projection:
+            ProjectionType: All
+          ProvisionedThroughput:
+            ReadCapacityUnits:
+              Ref: ReadCapacityUnits
+            WriteCapacityUnits:
+              Ref: WriteCapacityUnits
+          
+              
       
       
