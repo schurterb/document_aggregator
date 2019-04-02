@@ -61,16 +61,13 @@ Resources:
           IndexName: "Topic-DateSubmitted-DateProcessed"
           KeySchema:
             -
+              AttributeName: "Id"
+              KeyType: "HASH"
+            -
              AttributeName: "Topic"
              KeyType: "HASH"
-            -
-             AttributeName: "DateSubmitted"
-             KeyType: "RANGE"
-            -
-             AttributeName: "DateProcessed"
-             KeyType: "RANGE"
           Projection:
-            ProjectionType: All
+            ProjectionType: ALL
           ProvisionedThroughput:
             ReadCapacityUnits:
               Ref: ReadCapacityUnits
