@@ -19,19 +19,19 @@ Resources:
     Type: AWS::DynamoDB::Table
     Properties:
       TableName: "DocumentationAggregatorTopics"
-      AttributeDefinitions: |
+      AttributeDefinitions:
         -
-        AttributeName: "Id"
-        AttributeType: "N"
+          AttributeName: "Id"
+          AttributeType: "N"
         -
-        AttributeName: "Topic"
-        AttributeType: "S"
+          AttributeName: "Topic"
+          AttributeType: "S"
         -
-        AttributeName: "DateSubmitted"
-        AttributeType: "S"
+          AttributeName: "DateSubmitted"
+          AttributeType: "S"
         -
-        AttributeName: "DateProcessed"
-        AttributeType: "S"        
+          AttributeName: "DateProcessed"
+          AttributeType: "S"        
       KeySchema:
         AttributeName: "Id"
         KeyType: "HASH"
