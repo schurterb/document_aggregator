@@ -37,16 +37,10 @@ Resources:
       AttributeDefinitions:
         -
           AttributeName: "Id"
-          AttributeType: "S"
+          AttributeType: "N"
         -
           AttributeName: "Topic"
-          AttributeType: "S"
-        -
-          AttributeName: "DateSubmitted"
-          AttributeType: "S"
-        -
-          AttributeName: "DateProcessed"
-          AttributeType: "S"        
+          AttributeType: "S"      
       KeySchema:
         -
           AttributeName: "Id"
