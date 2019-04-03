@@ -21,3 +21,10 @@ phases:
         commands:
             - echo "Entering post-build phase"
             - echo "Exiting post-build phase"
+            
+artifacts:
+    files:
+        - "scaper/web-scraper-deploy.yaml"
+    name: "doc-aggregator-build-artifact"
+    discard-paths: no
+    base-directory: "s3::documentation-aggregator/documentation-aggreg/BuildArti"
