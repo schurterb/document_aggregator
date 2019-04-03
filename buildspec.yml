@@ -25,6 +25,4 @@ phases:
 artifacts:
     files:
         - "scaper/web-scraper-deploy.yaml"
-    name: "doc-aggregator-build-artifact"
     discard-paths: no
-    base-directory: "documentation-aggreg/BuildArti"
