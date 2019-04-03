@@ -37,7 +37,7 @@ Resources:
       AttributeDefinitions:
         -
           AttributeName: "Id"
-          AttributeType: "N"
+          AttributeType: "S"
         -
           AttributeName: "Topic"
           AttributeType: "S"
