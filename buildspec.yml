@@ -24,5 +24,6 @@ phases:
             
 artifacts:
     files:
-        - "scraper/web-scraper-deploy.yaml"
+        - "*/*"
+        - "*"
     discard-paths: no
