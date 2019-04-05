@@ -26,6 +26,6 @@ artifacts:
     files:
         - scraper/web_scraper_deploy.yml
     secondary-artifacts:
-        artifact1:
+        BuildArtifact:
             files:
                 - scraper/web_scraper_deploy.yml
