@@ -24,4 +24,4 @@ phases:
             
 artifacts:
     files:
-        - "scraper/web_scraper_deploy.yml"
+        - scraper/web_scraper_deploy.yml
