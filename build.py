@@ -30,5 +30,4 @@ print("Creating lambda function with "+sourceFile+"...")
 with ZipFile(zipFile, 'w') as zip:
     zip.write(sourceFile)
 
-#print(createLambdaFunction("test_function_2", zipFile, role='arn:aws:iam::353290830413:role/lambda_test_role'))
-print(updateLambdaFunction("test_function", zipFile))
+print(updateLambdaFunction("test_function_2", zipFile))
