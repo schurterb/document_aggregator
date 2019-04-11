@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+import os
 from zipfile import ZipFile
 
 from buildtools import updateLambdaFunction, invokeLambdaFunction, createLambdaFunction
@@ -31,3 +32,5 @@ with ZipFile(zipFile, 'w') as zip:
     zip.write(sourceFile)
 
 print(updateLambdaFunction("test_function_2", zipFile))
+
+os.remove(zipFile)
