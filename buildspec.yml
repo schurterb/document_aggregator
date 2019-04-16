@@ -4,18 +4,21 @@ phases:
     install:
         commands:
             - echo "Entering installation phase"
-            - pip install boto3 --upgrade --user
-            - pip3 install boto3 --upgrade --user
+            - ./setup_virtual_env.sh
             - echo "Exiting installation phase"
     pre_build:
         commands:
             - echo "Entering test phase"
-            - python3 -c "from scraper.test import lambda_handler; lambda_handler(\"dummy event\", \"dummy context\")"
             - echo "Exiting test phase"
     build:
         commands:
             - echo "Entering build phase"
-            - python3 build.py
+            - echo "Building scraper"
+            - python3 build-scraper.py
+            - echo "Finished building scraper"
+            - echo "Building webpage"
+            - python3 build-webpage.py
+            - echo "Finished building webpage"
             - echo "Exiting build phase"
     post_build:
         commands:
