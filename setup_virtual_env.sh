@@ -1,5 +1,6 @@
 #!/bin/bash
 
+echo "start setup"
 project_name=$1
 
 rm -fr $project_name
@@ -20,3 +21,4 @@ echo " *** "
 echo ""
 
 deactivate
+echo "end setup"
