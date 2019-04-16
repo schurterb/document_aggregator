@@ -75,12 +75,26 @@ def updateLambdaFunction(name, zipfile, **kwargs):
     
     lambda_client = boto3.client('lambda')
     with open(zipfile, 'rb') as f:
-        create_response = lambda_client.update_function_code(
+        update_response = lambda_client.update_function_code(
             FunctionName=name,
             ZipFile=f.read(),
             Publish=kwargs.get('publish', True),
             DryRun=kwargs.get('dry_run', False)
             )
                         
-    return create_response
-                        
+    return update_response
+
+"""
+"""
+def createOrUpdateLambdaLayer(name, zipfile, **kwargs):
+    
+    lambda_client = boto3.client('lambda')
+    with open(zipfile, 'rb') as f:
+        response = lambda_client.publish_layer_version(
+            FunctionName=name,
+            Description=kwargs.get('description', name),
+            Contents=dict( ZipFile=f.read() ),
+            CompatibleRuntimes=kwargs.get('runtimes', []),
+            LicenseInfo=kwargs.get('license', "")
+            )
+    return response
