@@ -6,7 +6,6 @@ phases:
             - echo "Entering installation phase"
             - project_name=document_aggregator
             - /bin/bash  setup_virtual_env.sh $project_name
-            - source $project_name/bin/activate
             - echo "Exiting installation phase"
     pre_build:
         commands:
@@ -16,16 +15,15 @@ phases:
         commands:
             - echo "Entering build phase"
             - echo "Building scraper"
-            - python3 build-scraper.py
+            - /bin/bash source $project_name/bin/activate && python3 build-scraper.py
             - echo "Finished building scraper"
             - echo "Building webpage"
-            - python3 build-webpage.py
+            - /bin/bash source $project_name/bin/activate && build-webpage.py
             - echo "Finished building webpage"
             - echo "Exiting build phase"
     post_build:
         commands:
-            - echo "Entering post-build phase
-            - deactivate
+            - echo "Entering post-build phase"
             - /bin/bash cleanup_and_commit.sh
             - echo "Exiting post-build phase"
             
