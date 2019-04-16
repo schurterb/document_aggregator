@@ -2,6 +2,7 @@
 
 #clean up stuff we don't want to commit'
 rm -rf document_aggregator
+rm -rf python
 rm -rf __pycache__ web/__pycache__ scraper/__pycache__
 rm -rf *zip web/*zip scraper/*zip
 

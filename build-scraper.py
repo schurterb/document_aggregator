@@ -9,7 +9,7 @@ from buildtools import updateLambdaFunction, invokeLambdaFunction, createLambdaF
 
 lambdaLayers = {}
 
-resourceOriginalDirectory = "document_aggregator/lib64/python3.6/site-packages/"
+resourceOriginalDirectory = "document_aggregator/lib/python3.6/site-packages/"
 resourceZipDirectory = "python/"
 #Create a lambda layer for boto3
 lambdaLayers['boto3'] = ["boto3"]

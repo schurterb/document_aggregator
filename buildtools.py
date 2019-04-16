@@ -91,9 +91,9 @@ def createOrUpdateLambdaLayer(name, zipfile, **kwargs):
     lambda_client = boto3.client('lambda')
     with open(zipfile, 'rb') as f:
         response = lambda_client.publish_layer_version(
-            FunctionName=name,
+            LayerName=name,
             Description=kwargs.get('description', name),
-            Contents=dict( ZipFile=f.read() ),
+            Content=dict( ZipFile=f.read() ),
             CompatibleRuntimes=kwargs.get('runtimes', []),
             LicenseInfo=kwargs.get('license', "")
             )

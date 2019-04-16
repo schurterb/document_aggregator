@@ -5,7 +5,7 @@ phases:
         commands:
             - echo "Entering installation phase"
             - project_name=$1
-            - ./setup_virtual_env.sh $project_name
+            - /bin/bash  setup_virtual_env.sh $project_name
             - source $project_name/bin/activate
             - echo "Exiting installation phase"
     pre_build:
@@ -26,7 +26,7 @@ phases:
         commands:
             - echo "Entering post-build phase
             - deactivate
-            - ./cleanup_and_commit.sh
+            - /bin/bash cleanup_and_commit.sh
             - echo "Exiting post-build phase"
             
 artifacts:
