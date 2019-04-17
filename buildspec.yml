@@ -10,14 +10,14 @@ phases:
     build:
         commands:
             - echo $project_name
-            - /bin/bash ls
-            - /bin/bash which source
-            - /bin/bash which python3
-            - /bin/bash which python
             - ls
             - which source
             - which python3
             - which python
+            - /bin/bash ls
+            - /bin/bash which source
+            - /bin/bash which python3
+            - /bin/bash which python
             - echo "Building scraper"
             - /bin/bash source $project_name/bin/activate && python3 build-scraper.py
             - echo "Finished building scraper"
