@@ -3,29 +3,16 @@ version: 0.2
 phases:
     install:
         commands:
-            - project_name=document_aggregator
-            - /bin/bash setup_virtual_env.sh $project_name
+            - /bin/bash codebuild/install.sh
     pre_build:
         commands:
+            - /bin/bash codebuild/prebuild.sh
     build:
         commands:
-            - echo $project_name
-            - ls
-            - source $project_name/bin/activate
-            - /bin/bash source $project_name/bin/activate
-            - which python3
-            - which python
-            - /bin/bash which python3
-            - /bin/bash which python
-            - echo "Building scraper"
-            - /bin/bash source $project_name/bin/activate && python3 build-scraper.py
-            - echo "Finished building scraper"
-            - echo "Building webpage"
-            - /bin/bash source $project_name/bin/activate && build-webpage.py
-            - echo "Finished building webpage"
+            - /bin/bash codebuild/build.sh
     post_build:
         commands:
-            - /bin/bash cleanup_and_commit.sh
+            - /bin/bash codebuild/postbuild.sh
             
 artifacts:
     files:
