@@ -11,11 +11,10 @@ phases:
         commands:
             - echo $project_name
             - ls
-            - which source
+            - source $project_name/bin/activate
+            - /bin/bash source $project_name/bin/activate
             - which python3
             - which python
-            - /bin/bash ls
-            - /bin/bash which source
             - /bin/bash which python3
             - /bin/bash which python
             - echo "Building scraper"
