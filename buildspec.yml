@@ -3,29 +3,26 @@ version: 0.2
 phases:
     install:
         commands:
-            - echo "Entering installation phase"
             - project_name=document_aggregator
-            - /bin/bash  setup_virtual_env.sh $project_name
-            - echo "Exiting installation phase"
+            - /bin/bash setup_virtual_env.sh $project_name
     pre_build:
         commands:
-            - echo "Entering test phase"
-            - echo "Exiting test phase"
     build:
         commands:
-            - echo "Entering build phase"
+            - echo $project_name
+            - echo ls
+            - echo which source
+            - echo which python3
+            - echo which python
             - echo "Building scraper"
             - /bin/bash source $project_name/bin/activate && python3 build-scraper.py
             - echo "Finished building scraper"
             - echo "Building webpage"
             - /bin/bash source $project_name/bin/activate && build-webpage.py
             - echo "Finished building webpage"
-            - echo "Exiting build phase"
     post_build:
         commands:
-            - echo "Entering post-build phase"
             - /bin/bash cleanup_and_commit.sh
-            - echo "Exiting post-build phase"
             
 artifacts:
     files:

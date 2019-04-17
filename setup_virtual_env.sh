@@ -12,13 +12,5 @@ source $project_name/bin/activate
 pip install -r build-requirements.txt
 pip install -r lambda-requirements.txt
 
-echo ""
-echo " *** "
-echo ""
-ls document_aggregator/lib/python3.6/site-packages/
-echo ""
-echo " *** "
-echo ""
-
 deactivate
 echo "end setup"
