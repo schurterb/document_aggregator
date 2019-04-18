@@ -58,7 +58,7 @@ def createLambdaFunction(name, zipfile, **kwargs):
         create_response = lambda_client.create_function(
             FunctionName=name,
             Runtime=kwargs.get('runtime', 'python3.6'),
-            Role=kwargs.get('role', 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'),
+            Role=kwargs.get('role', 'arn:aws:iam::353290830413:role/lambda_test_role'),
             Handler=kwargs.get('handler', 'main.handler'),
             Code=dict( ZipFile=f.read(), ),
             Description=kwargs.get('description', name),
