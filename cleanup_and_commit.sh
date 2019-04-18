@@ -1,15 +1,19 @@
 #!/bin/bash
 
 #clean up stuff we don't want to commit'
-rm -rf document_aggregator
+. cleanup_virtual_env.sh $1
 rm -rf python
 rm -rf __pycache__ web/__pycache__ scraper/__pycache__
-rm -rf *zip web/*zip scraper/*zip
+rm -f *zip web/*zip scraper/*zip
+rm -f *log web/*log scraper/*log bin/*log
+rm -rf bin/locales
 
 #Only commit changes if there is a comment to commit with
+git add * -A
 if [ "$#" -ne 0 ]
 then
-  git add * -A
   git commit -m "$@"
-  git push
+else
+  git commit -m "no comment"
 fi
+git push
