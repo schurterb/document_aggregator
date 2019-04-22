@@ -17,8 +17,10 @@ phases:
             
 artifacts:
     files:
-        - scraper/web_scraper_deploy.yml
+        - scraper/scraper_deploy.yml
+        - web/web_deploy.yml
     secondary-artifacts:
         BuildArtifact:
             files:
-                - scraper/web_scraper_deploy.yml
+                - scraper/scraper_deploy.yml
+                - web/web_deploy.yml
