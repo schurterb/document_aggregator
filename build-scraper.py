@@ -36,8 +36,6 @@ for name, sources in lambdaLayers.items():
                 
     response = createOrUpdateLambdaLayer(name, name+".zip", runtimes=['python3.6','python3.7'])
     layerPublishResponse.append(response)
-    for source in sources:
-        rm("-rf", source)
     print(response)
     print("Finished creating lambda layer")
     rm("-rf", resourceZipDirectory)
