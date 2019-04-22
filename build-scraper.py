@@ -45,33 +45,40 @@ lambdaFunctions = {}
 lambdaFunctionDependencies = {}
 
 #Basic Web scraper
-lambdaFunctions['basicLambdaScraper'] = ["scraper/document_scraper.py"]
-lambdaFunctionDependencies['basicLambdaScraper'] = [""]
-
-
+lambdaFunctionCreationArgs = {}
+lambdaFunctionCreationArgs['name'] = "basicLambdaScraper"
+lambdaFunctionCreationArgs['description'] = "A basic lambda function for scraping data from the internet"
+lambdaFunctionCreationArgs['code'] = ["scraper/document_scraper.py"]
+lambdaFunctionCreationArgs['handler'] = "document_scraper.lambda_handler"
+lambdaFunctionCreationArgs['layers'] = ["headlessChromium", "scraping"]
 
 #Create a place to put the resources while zipping them.
+resourceZipDirectory = lambdaFunctionCreationArgs['name']
+name = lambdaFunctionCreationArgs['name']
+sources = lambdaFunctionCreationArgs['code']
 mkdir("-p", resourceZipDirectory)
 
-for name, sources in lambdaFunctions.items():
-    print("Creating lambda function for "+name+" with "+str(sources))
-    for source in sources:
-        cp("-rf", source, resourceZipDirectory)
-    with ZipFile(name+".zip", 'w') as ziph:
-        for root, dirs, files in os.walk(resourceZipDirectory):
-            for file in files:
-                ziph.write(os.path.join(root, file))
-    try:
-        print("Attempting to create lambda function")
-        response = createLambdaFunction(name, name+".zip")
-    except Exception as e:
-        print("Lambda function already exists.  Attempting to update")
-        response = updateLambdaFunction(name, name+".zip")
-    
-    for source in sources:
-        rm("-rf", resourceZipDirectory+"*")
-    print(response)
-    print("Finished creating lambda function")
+print("Creating lambda function for "+name+" with "+str(sources))
+for source in sources:
+    cp("-rf", source, resourceZipDirectory)
+with ZipFile(name+".zip", 'w') as ziph:
+    for root, dirs, files in os.walk(resourceZipDirectory):
+        for file in files:
+            ziph.write(os.path.join(root, file))
+try:
+    print("Attempting to create lambda function")
+    response = createLambdaFunction(name, name+".zip", 
+                    description = lambdaFunctionCreationArgs['description'],
+                    handler = lambdaFunctionCreationArgs['handler'],
+                    layers = lambdaFunctionCreationArgs['layers'])
+except Exception as e:
+    print("Lambda function already exists.  Attempting to update")
+    response = updateLambdaFunction(name, name+".zip")
+
+for source in sources:
+    rm("-rf", resourceZipDirectory+"*")
+print(response)
+print("Finished creating lambda function")
     
 rm("-rf", resourceZipDirectory)
 
