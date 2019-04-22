@@ -12,7 +12,7 @@ rm -rf bin/locales
 git add * -A
 if [ "$#" -ne 0 ]
 then
-  git commit -m "$@"
+  git commit -m "$2"
 else
   git commit -m "no comment"
 fi
