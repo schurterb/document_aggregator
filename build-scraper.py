@@ -9,6 +9,7 @@ from buildtools import updateLambdaFunction, invokeLambdaFunction, createLambdaF
 
 resourceOriginalDirectory = "document_aggregator/lib/python3.6/site-packages/"
 resourceZipDirectory = "python/"
+chromeBinaryDirectory = "bin/"
 
 lambdaLayers = {}
 
@@ -30,6 +31,12 @@ for name, sources in lambdaLayers.items():
         for root, dirs, files in os.walk(resourceZipDirectory):
             for file in files:
                 ziph.write(os.path.join(root, file))
+        #If this is the scraping layer, add bin/
+        if name is 'scraping':
+            for root, dirs, files in os.walk(chromeBinaryDirectory):
+                for file in files:
+                    ziph.write(os.path.join(root, file))
+                
     response = createOrUpdateLambdaLayer(name, name+".zip", runtimes=['python3.6','python3.7'])
     layerPublishResponse.append(response)
     for source in sources:
