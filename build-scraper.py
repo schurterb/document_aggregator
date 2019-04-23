@@ -50,7 +50,8 @@ lambdaFunctionCreationArgs['name'] = "basicLambdaScraper"
 lambdaFunctionCreationArgs['description'] = "A basic lambda function for scraping data from the internet"
 lambdaFunctionCreationArgs['code'] = ["scraper/document_scraper.py"]
 lambdaFunctionCreationArgs['handler'] = "document_scraper.lambda_handler"
-lambdaFunctionCreationArgs['layers'] = ["headlessChromium", "scraping"]
+lambdaFunctionCreationArgs['layers'] = ["arn:aws:lambda:us-east-1:353290830413:layer:headlessChromium:1",
+                                        "arn:aws:lambda:us-east-1:353290830413:layer:scraping:16"]
 
 #Create a place to put the resources while zipping them.
 resourceZipDirectory = lambdaFunctionCreationArgs['name']
