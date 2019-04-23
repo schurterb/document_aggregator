@@ -64,9 +64,9 @@ def createLambdaFunction(name, zipfile, **kwargs):
             Description=kwargs.get('description', name),
             Timeout=kwargs.get('timeout', 300),
             Environment=dict( Variables=kwargs, ),
-            Layers=str(kwargs.get("layers",[]))
+            Layers=[]
             )
-                        
+
     return create_response
                         
 
