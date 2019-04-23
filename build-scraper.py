@@ -40,6 +40,7 @@ for name, sources in lambdaLayers.items():
     print("Finished creating lambda layer")
     rm("-rf", resourceZipDirectory)
 
+"""
 #Create a lambda function
 lambdaFunctions = {}
 lambdaFunctionDependencies = {}
@@ -82,4 +83,4 @@ print(response)
 print("Finished creating lambda function")
     
 rm("-rf", resourceZipDirectory)
-
+"""

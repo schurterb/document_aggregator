@@ -40,5 +40,3 @@ def lambda_handler(event, context):
     driver.close()
     
     print("Chrome test complete")
-
-lambda_handler(None, None)

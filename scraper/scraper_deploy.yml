@@ -53,6 +53,19 @@ Resources:
             WriteCapacityUnits:
               Ref: WriteCapacityUnits
           
-              
+  BasicLambdaScraper:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: "BasicLambdaScraper"
+      Description: "Basic lambda function for scraper"
+      Code:
+        S3Bucket: "document_aggregator"
+        S3Key: "deploy/scraper/document_scraper.py"
+      Handler: "document_scraper.lambda_handler"
+      Layers:
+        - "arn:aws:lambda:us-east-1:353290830413:layer:headlessChromium:1"
+        - "arn:aws:lambda:us-east-1:353290830413:layer:scraping:16"
+      Role: "arn:aws:iam::353290830413:role/lambda_test_role"
+      Timeout: 300
       
       
