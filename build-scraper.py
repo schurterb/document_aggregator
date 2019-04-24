@@ -40,7 +40,8 @@ for name, sources in lambdaLayers.items():
     print("Finished creating lambda layer")
     rm("-rf", resourceZipDirectory)
 
-"""
+
+
 #Create a lambda function
 lambdaFunctions = {}
 lambdaFunctionDependencies = {}
@@ -60,6 +61,9 @@ name = lambdaFunctionCreationArgs['name']
 sources = lambdaFunctionCreationArgs['code']
 mkdir("-p", resourceZipDirectory)
 
+name = "scraper/document_scraper.py"
+sources = ["scraper/document_scraper.py"]
+
 print("Creating lambda function for "+name+" with "+str(sources))
 for source in sources:
     cp("-rf", source, resourceZipDirectory)
@@ -67,6 +71,8 @@ with ZipFile(name+".zip", 'w') as ziph:
     for root, dirs, files in os.walk(resourceZipDirectory):
         for file in files:
             ziph.write(os.path.join(root, file))
+
+"""
 try:
     print("Attempting to create lambda function")
     response = createLambdaFunction(name, name+".zip", 

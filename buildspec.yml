@@ -17,12 +17,12 @@ phases:
             
 artifacts:
     files:
-        - scraper/document_scraper.py
+        - scraper/document_scraper.py.zip
         - scraper/scraper_deploy.yml
         - web/index.html
         - web/web_deploy.yml
     secondary-artifacts:
         BuildArtifact:
             files:
-                - scraper/document_scraper.py
+                - scraper/document_scraper.py.zip
                 - scraper/scraper_deploy.yml
