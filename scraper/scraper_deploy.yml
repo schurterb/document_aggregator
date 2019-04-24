@@ -60,7 +60,7 @@ Resources:
       Description: "Basic lambda function for scraper"
       Runtime: "python3.6"
       Code:
-        S3Bucket: "document_aggregator"
+        S3Bucket: "arn:aws:s3:::documentation-aggregator"
         S3Key: "deploy/scraper/document_scraper.py"
       Handler: "document_scraper.lambda_handler"
       Layers:
