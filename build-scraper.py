@@ -65,12 +65,18 @@ name = "scraper/document_scraper.py"
 sources = ["scraper/document_scraper.py"]
 
 print("Creating lambda function for "+name+" with "+str(sources))
+
+with ZipFile(name+".zip", 'w') as ziph:
+    ziph.write(sources[0])
+
+"""
 for source in sources:
     cp("-rf", source, resourceZipDirectory)
 with ZipFile(name+".zip", 'w') as ziph:
     for root, dirs, files in os.walk(resourceZipDirectory):
         for file in files:
             ziph.write(os.path.join(root, file))
+"""
 
 """
 try:
