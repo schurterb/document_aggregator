@@ -58,7 +58,7 @@ Resources:
     Properties:
       FunctionName: "BasicLambdaScraper"
       Description: "Basic lambda function for scraper"
-      RunTime: "python3.6"
+      Runtime: "python3.6"
       Code:
         S3Bucket: "document_aggregator"
         S3Key: "deploy/scraper/document_scraper.py"
