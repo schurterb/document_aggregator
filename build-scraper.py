@@ -11,7 +11,7 @@ resourceOriginalDirectory = "document_aggregator/lib/python3.6/site-packages/"
 
 lambdaLayers = {}
 resourceZipDirectories = {}
-
+"""
 #Create a lambda layer for boto3
 lambdaLayers['boto3'] = [resourceOriginalDirectory+"boto3"]
 resourceZipDirectories['boto3'] = "python/"
@@ -41,6 +41,7 @@ for name, sources in lambdaLayers.items():
     rm("-rf", resourceZipDirectory)
 
 
+"""
 
 #Create a lambda function
 lambdaFunctions = {}
@@ -68,6 +69,8 @@ print("Creating lambda function for "+name+" with "+str(sources))
 
 with ZipFile(name+".zip", 'w') as ziph:
     ziph.write(sources[0])
+
+print("Finished reating lambda function for "+name+" with "+str(sources))
 
 """
 for source in sources:
