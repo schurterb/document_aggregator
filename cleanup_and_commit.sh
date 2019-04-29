@@ -10,10 +10,13 @@ rm -rf bin/locales
 
 #Only commit changes if there is a comment to commit with
 git add * -A
-if [ "$#" -ne 0 ]
+if [ "$#" -ne 1 ]
 then
   git commit -m "$2"
+elif [ "$#" -ne 0 ]
+then
+  git commit -m "$1"
 else
-  git commit -m "no comment"
+  git commit -m "No comment"
 fi
 git push
