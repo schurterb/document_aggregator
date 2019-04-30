@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+import os
+os.environ["PATH"] += os.pathsep + "/opt/python"
+
 from selenium import webdriver
 
 def lambda_handler(event, context):
@@ -25,10 +28,10 @@ def lambda_handler(event, context):
     chrome_options.add_argument('--homedir=/tmp')
     chrome_options.add_argument('--disk-cache-dir=/tmp/cache-dir')
     chrome_options.add_argument('user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36')
-    chrome_options.binary_location = "/home/ubuntu/environment/document_aggregator/bin/headless-chromium"
+    chrome_options.binary_location = "/opt/bin/headless-chromium"
     
     print("Launching driver")
-    driver = webdriver.Chrome(executable_path="/home/ubuntu/environment/document_aggregator/bin/chromedriver", chrome_options=chrome_options)
+    driver = webdriver.Chrome(executable_path="/opt/bin/chromedriver", chrome_options=chrome_options)
     page_data = ""
     print("Getting url: "+url)
     driver.get(url)
@@ -40,3 +43,6 @@ def lambda_handler(event, context):
     driver.close()
     
     print("Chrome test complete")
+    
+    
+    return html

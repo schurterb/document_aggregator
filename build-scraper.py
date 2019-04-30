@@ -5,10 +5,17 @@ import os
 from zipfile import ZipFile
 from sh import mkdir, cp, rm
 
-from buildtools import updateLambdaFunction, invokeLambdaFunction, createLambdaFunction, createOrUpdateLambdaLayer
+from buildtools import updateLambdaFunction, invokeLambdaFunction, createLambdaFunction, injectLambdaCodeIntoYAML
 
-resourceOriginalDirectory = "document_aggregator/lib/python3.6/site-packages/"
+filesToInject = {}
+filesToInject["BasicLambdaScraper"] = "scraper/document_scraper.py"
+yamlFile = "scraper/scraper_deploy.yml"
 
+print("Injecting python code into lambda files")
+injectLambdaCodeIntoYAML(yamlFile, filesToInject)
+print("Finished injecting python code into lambda files")
+
+"""
 lambdaLayers = {}
 resourceZipDirectories = {}
 
@@ -41,7 +48,6 @@ with ZipFile(name+".zip", 'w') as ziph:
 
 print("Finished reating lambda function for "+name+" with "+str(sources))
 
-"""
 for source in sources:
     cp("-rf", source, resourceZipDirectory)
 with ZipFile(name+".zip", 'w') as ziph:

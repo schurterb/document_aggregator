@@ -1,72 +1,61 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: "Cloudformation Deployment segments for the scraper side of the document_aggregator"
-
+Description: Cloudformation Deployment segments for the scraper side of the document_aggregator
 Parameters:
   ReadCapacityUnits:
-    Description: "Provisioned Read Throughput for DynamoDB"
-    Type: "Number"
+    ConstraintDescription: Keep throughput between 1 and 5 to stay within free tier
     Default: 1
-    MinValue: 1
+    Description: Provisioned Read Throughput for DynamoDB
     MaxValue: 5
-    ConstraintDescription: "Keep throughput between 1 and 5 to stay within free tier"
+    MinValue: 1
+    Type: Number
   WriteCapacityUnits:
-    Description: "Provisioned Write Throughput for DynamoDB"
-    Type: "Number"
+    ConstraintDescription: Keep throughput between 1 and 5 to stay within free tier
     Default: 1
-    MinValue: 1
+    Description: Provisioned Write Throughput for DynamoDB
     MaxValue: 5
-    ConstraintDescription: "Keep throughput between 1 and 5 to stay within free tier"
-    
+    MinValue: 1
+    Type: Number
 Resources:
-  TopicTable:
-    Type: AWS::DynamoDB::Table
+  BasicLambdaScraper:
     Properties:
-      TableName: "DocumentationAggregatorTopics"
+      Code:
+        ZipFile: ""
+      Description: Basic lambda function for scraper
+      FunctionName: BasicLambdaScraper
+      Handler: document_scraper.lambda_handler
+      Layers:
+        - arn:aws:lambda:us-east-1:353290830413:layer:headlessChromium:1
+        - arn:aws:lambda:us-east-1:353290830413:layer:scraping:30
+      Role: arn:aws:iam::353290830413:role/lambda_test_role
+      Runtime: python3.6
+      Timeout: 300
+    Type: AWS::Lambda::Function
+  TopicTable:
+    Properties:
       AttributeDefinitions:
-        -
-          AttributeName: "Id"
-          AttributeType: "N"
-        -
-          AttributeName: "Topic"
-          AttributeType: "S"      
+      - AttributeName: Id
+        AttributeType: N
+      - AttributeName: Topic
+        AttributeType: S
+      GlobalSecondaryIndexes:
+      - IndexName: Topic-DateSubmitted-DateProcessed
+        KeySchema:
+        - AttributeName: Topic
+          KeyType: HASH
+        Projection:
+          ProjectionType: ALL
+        ProvisionedThroughput:
+          ReadCapacityUnits:
+            Ref: ReadCapacityUnits
+          WriteCapacityUnits:
+            Ref: WriteCapacityUnits
       KeySchema:
-        -
-          AttributeName: "Id"
-          KeyType: "HASH"
+      - AttributeName: Id
+        KeyType: HASH
       ProvisionedThroughput:
         ReadCapacityUnits:
           Ref: ReadCapacityUnits
         WriteCapacityUnits:
           Ref: WriteCapacityUnits
-      GlobalSecondaryIndexes:
-        -
-          IndexName: "Topic-DateSubmitted-DateProcessed"
-          KeySchema:
-            -
-             AttributeName: "Topic"
-             KeyType: "HASH"
-          Projection:
-            ProjectionType: ALL
-          ProvisionedThroughput:
-            ReadCapacityUnits:
-              Ref: ReadCapacityUnits
-            WriteCapacityUnits:
-              Ref: WriteCapacityUnits
-          
-  BasicLambdaScraper:
-    Type: AWS::Lambda::Function
-    Properties:
-      FunctionName: "BasicLambdaScraper"
-      Description: "Basic lambda function for scraper"
-      Runtime: "python3.6"
-      Code:
-        S3Bucket: "documentation-aggregator"
-        S3Key: "documentation_aggregator_build_2/scraper/document_scraper.py.zip"
-      Handler: "document_scraper.lambda_handler"
-      Layers:
-        - "arn:aws:lambda:us-east-1:353290830413:layer:headlessChromium:1"
-        - "arn:aws:lambda:us-east-1:353290830413:layer:scraping:30"
-      Role: "arn:aws:iam::353290830413:role/lambda_test_role"
-      Timeout: 300
-      
-      
+      TableName: DocumentationAggregatorTopics
+    Type: AWS::DynamoDB::Table
