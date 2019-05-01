@@ -26,7 +26,8 @@ def lambda_handler(event, context):
     #Get html from query
     eventData = dict(url=url)
     response = invokeLambdaFunction("GetHTMLFromURL", eventData)
-    html = str(response['Payload'])
+    htmlBytes = response['Payload'].read()
+    html = htmlBytes.decode("utf-8")
     
     if html is not None:
         print("Parsing html result")
@@ -44,7 +45,6 @@ def lambda_handler(event, context):
         print("Returning "+str(len(searchResult))+" links")
         return searchResult
         
-
 """
 @param functionName  name of the lambda function to invoke
 @param eventData     data to pass to the lambda function
