@@ -24,7 +24,7 @@ def lambda_handler(event, context):
     
     print("Getting html for query url: "+url)
     #Get html from query
-    eventData = {'url': url}
+    eventData = dict(url=url)
     response = invokeLambdaFunction("GetHTMLFromURL", eventData)
     html = str(response['Payload'])
     
@@ -50,17 +50,9 @@ def lambda_handler(event, context):
 @param eventData     data to pass to the lambda function
 """
 def invokeLambdaFunction(functionName, eventData):
-    
-    #Write data to a text file
-    with open("tmp.txt", 'w') as wf:
-        json.dump(eventData, wf)
-    
-    with open("tmp.txt", 'rb') as rbf:
-        lambda_client = boto3.client('lambda')
-        invoke_response = lambda_client.invoke(FunctionName=functionName,
-                                               LogType='Tail',
-                                               Payload=rbf,
-                                               InvocationType='RequestResponse')
-                                               
-    os.remove("tmp.txt")
+    lambda_client = boto3.client('lambda')
+    invoke_response = lambda_client.invoke(FunctionName=functionName,
+                                           LogType='Tail',
+                                           Payload=json.dumps(eventData),
+                                           InvocationType='RequestResponse')
     return invoke_response
