@@ -8,7 +8,7 @@ from sh import mkdir, cp, rm
 from buildtools import updateLambdaFunction, invokeLambdaFunction, createLambdaFunction, injectLambdaCodeIntoYAML
 
 filesToInject = {}
-filesToInject["BasicLambdaScraper"] = "scraper/document_scraper.py"
+filesToInject["GetHTMLFromURL"] = "scraper/lambda_get_html.py"
 yamlFile = "scraper/scraper_deploy.yml"
 
 print("Injecting python code into lambda files")
