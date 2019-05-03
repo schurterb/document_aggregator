@@ -6,7 +6,8 @@ import os
 os.environ["PATH"] += os.pathsep + "/opt/python"
 
 import boto3
-from bs4 import BeautifulSoup, element
+from bs4 import BeautifulSoup
+from bs4.element import Comment
 from selenium import webdriver
 
 def lambda_handler(event, context):
@@ -26,8 +27,9 @@ def lambda_handler(event, context):
         soup = BeautifulSoup(html, 'html.parser')
         texts = soup.find_all(text=True)
         searchResult = filter(tag_visible, texts)
+        searchResult = "\\n".join(result.replace("\\n", "").strip() for result in searchResult)
 
-        print("Returning "+str(len(searchResult))+" links")
+        print("Returning search result of "+str(len(searchResult))+" characters")
         return searchResult
         
 """
@@ -48,6 +50,8 @@ Return false if the provided element is not visible to users
 def tag_visible(element):
     if element.parent.name in ['style', 'script', 'head', 'title', 'meta', '[document]']:
         return False
-    if isinstance(element, element.Comment):
+    if isinstance(element, Comment):
         return False
-    return True    
+    if element.replace("\\n", "").strip() == "":
+        return False
+    return True
