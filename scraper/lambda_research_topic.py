@@ -15,15 +15,22 @@ def lambda_handler(event, context):
     
     #Get links by calling lambda_websearch synchronously
     eventData = dict(query=topic, numberOfLinks=10)
-    links = invokeLambdaFunction("QueryTopic", eventData)
+    response = invokeLambdaFunction("QueryTopic", eventData)
+    links = response['Payload'].read().decode("utf-8")
+    print(links)
+    links = json.loads(links)
+    print(links)
     print("Received "+str(len(links))+" related to topic")
     
     #Get text data by calling lambda_extract_text asynchronously
     # passing a different URL to each instance
     for link in links:
-        print("Extracting text from "+link)
-        eventData = dict(url=link)
-        invokeLambdaFunction("ExtractText", eventData, asynchronous=True)
+        eventData = dict(url=link.replace("\\\"", ""))
+        print("Extracting text from "+eventData['url'])
+        result = invokeLambdaFunction("ExtractText", eventData)#, asynchronous=True)
+        html = result['Payload'].read()
+        html = html.decode("utf-8")
+        return html
     
         
 """
