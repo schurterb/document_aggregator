@@ -17,9 +17,7 @@ def lambda_handler(event, context):
     eventData = dict(query=topic, numberOfLinks=10)
     response = invokeLambdaFunction("QueryTopic", eventData)
     links = response['Payload'].read().decode("utf-8")
-    print(links)
     links = json.loads(links)
-    print(links)
     print("Received "+str(len(links))+" related to topic")
     
     #Get text data by calling lambda_extract_text asynchronously

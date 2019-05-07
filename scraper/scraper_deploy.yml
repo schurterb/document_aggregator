@@ -104,3 +104,8 @@ Resources:
         WriteCapacityUnits:
           Ref: WriteCapacityUnits
       TableName: DocumentationAggregatorTopics
+  TopicResearchEventMapping:
+    Type: AWS::Lambda::EventSourceMapping
+    Properties:
+      EventSourceArn: arn:aws:dynamodb:us-east-1:353290830413:table/DocumentationAggregatorTopics
+      FunctionName: ResearchTopic
