@@ -26,7 +26,8 @@ Resources:
               - "sts:AssumeRole"
             Effect: Allow
             Principal:
-              AWS: !GetAtt ResearchTopic.Arn
+              AWS:
+                Fn::GetAtt: [ ResearchTopic, Arn ]
         Version: "2012-10-17"
       ManagedPolicyArns: 
         - "arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess"
