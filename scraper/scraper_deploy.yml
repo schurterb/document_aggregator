@@ -79,7 +79,7 @@ Resources:
         - "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
         - "arn:aws:iam::aws:policy/service-role/AWSLambdaRole"
       MaxSessionDuration: 3600
-      Policy: 
+      Policies: 
         - 
           PolicyDocument: 
             Statement: 
@@ -105,7 +105,7 @@ Resources:
       Layers: 
         - "arn:aws:lambda:us-east-1:353290830413:layer:boto3:38"
       MemorySize: 128
-      Role: ReadDynamoDBRole.ARN
+      Role: !GetAtt ReadDynamoDBRole.ARN
       Runtime: python3.6
       Timeout: 700
     Type: "AWS::Lambda::Function"
