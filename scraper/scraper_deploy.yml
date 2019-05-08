@@ -105,7 +105,7 @@ Resources:
       MemorySize: 128
       Role: "arn:aws:iam::353290830413:role/lambda_test_role"
       Runtime: python3.6
-      Timeout: 700
+      Timeout: 600
     Type: "AWS::Lambda::Function"
   TopicTable: 
     Properties: 
