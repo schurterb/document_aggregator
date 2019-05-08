@@ -102,7 +102,7 @@ Resources:
       Role: !GetAtt ReadDynamoDBRole.ARN
       Runtime: python3.6
       MemorySize: 128
-      Timeout: 600
+      Timeout: 700
   TopicTable:
     Type: AWS::DynamoDB::Table
     Properties:
