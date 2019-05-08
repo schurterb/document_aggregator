@@ -25,7 +25,8 @@ Resources:
             Action: 
               - "sts:AssumeRole"
             Effect: Allow
-            Principal: "lambda.*"
+            Principal:
+              AWS: !GetAtt ResearchTopic.Arn
         Version: "2012-10-17"
       ManagedPolicyArns: 
         - "arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess"
