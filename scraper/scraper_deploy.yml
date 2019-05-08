@@ -1,134 +1,126 @@
-AWSTemplateFormatVersion: '2010-09-09'
-Description: Cloudformation Deployment segments for the scraper side of the document_aggregator
-Parameters:
-  ReadCapacityUnits:
-    ConstraintDescription: Keep throughput between 1 and 5 to stay within free tier
+--- 
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "Cloudformation Deployment segments for the scraper side of the document_aggregator"
+Parameters: 
+  ReadCapacityUnits: 
+    ConstraintDescription: "Keep throughput between 1 and 5 to stay within free tier"
     Default: 1
-    Description: Provisioned Read Throughput for DynamoDB
+    Description: "Provisioned Read Throughput for DynamoDB"
     MaxValue: 5
     MinValue: 1
     Type: Number
-  WriteCapacityUnits:
-    ConstraintDescription: Keep throughput between 1 and 5 to stay within free tier
+  WriteCapacityUnits: 
+    ConstraintDescription: "Keep throughput between 1 and 5 to stay within free tier"
     Default: 1
-    Description: Provisioned Write Throughput for DynamoDB
+    Description: "Provisioned Write Throughput for DynamoDB"
     MaxValue: 5
     MinValue: 1
     Type: Number
-Resources:
-  ReadDynamoDBRole:
-    Type: AWS::IAM::Role
-    Properties:
-      RoleName: ReadDynamoDBRole
-      AssumeRolePolicyDocument:
-      ManagedPolicyArns:
-        - arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess
-        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
-        - arn:aws:iam::aws:policy/service-role/AWSLambdaRole
-      MaxSessionDuration: 3600
-      Policy:
-        - PolicyDocument: {
-                            "Version": "2012-10-17",
-                            {
-                              "Sid": "VisualEditor1",
-                              "Effect": "Allow",
-                              "Action": [
-                                "dynamodb:GetShardIterator",
-                                "dynamodb:DescribeStream",
-                                "dynamodb:ListStreams",
-                                "dynamodb:GetRecords"
-                              ],
-                              "Resource": "*"
-                            }
-                          ]
-                        }
-          PolicyName: ReadDynamoDB-managed-policy
-      
-  GetHTMLFromURL:
-    Type: AWS::Lambda::Function
-    Properties:
-      Code:
+Resources: 
+  ExtractText: 
+    Properties: 
+      Code: 
         ZipFile: ""
-      Description: Returns the html associated with a particular url.
-      FunctionName: GetHTMLFromURL
-      Handler: index.lambda_handler
-      Layers:
-        - arn:aws:lambda:us-east-1:353290830413:layer:headlessChromium:1
-        - arn:aws:lambda:us-east-1:353290830413:layer:scraping:31
-      Role: arn:aws:iam::353290830413:role/lambda_test_role
-      Runtime: python3.6
-      MemorySize: 512
-      Timeout: 300
-  QueryTopic:
-    Type: AWS::Lambda::Function
-    Properties:
-      Code:
-        ZipFile: ""
-      Description: Returns a list of links on a particular topic taken from google.
-      FunctionName: QueryTopic
-      Handler: index.lambda_handler
-      Layers:
-        - arn:aws:lambda:us-east-1:353290830413:layer:boto3:38
-        - arn:aws:lambda:us-east-1:353290830413:layer:scraping:31
-      Role: arn:aws:iam::353290830413:role/lambda_test_role
-      Runtime: python3.6
-      MemorySize: 128
-      Timeout: 600
-  ExtractText:
-    Type: AWS::Lambda::Function
-    Properties:
-      Code:
-        ZipFile: ""
-      Description: Extracts visible text from the html returned by the provided url.
+      Description: "Extracts visible text from the html returned by the provided url."
       FunctionName: ExtractText
       Handler: index.lambda_handler
-      Layers:
-        - arn:aws:lambda:us-east-1:353290830413:layer:boto3:38
-        - arn:aws:lambda:us-east-1:353290830413:layer:scraping:31
-      Role: arn:aws:iam::353290830413:role/lambda_test_role
-      Runtime: python3.6
+      Layers: 
+        - "arn:aws:lambda:us-east-1:353290830413:layer:boto3:38"
+        - "arn:aws:lambda:us-east-1:353290830413:layer:scraping:31"
       MemorySize: 128
+      Role: "arn:aws:iam::353290830413:role/lambda_test_role"
+      Runtime: python3.6
       Timeout: 600
-  ResearchTopic:
-    Type: AWS::Lambda::Function
-    Properties:
-      Code:
+    Type: "AWS::Lambda::Function"
+  GetHTMLFromURL: 
+    Properties: 
+      Code: 
         ZipFile: ""
-      Description: Takes a topic, searches google for related links, and extracts text from the related links.
+      Description: "Returns the html associated with a particular url."
+      FunctionName: GetHTMLFromURL
+      Handler: index.lambda_handler
+      Layers: 
+        - "arn:aws:lambda:us-east-1:353290830413:layer:headlessChromium:1"
+        - "arn:aws:lambda:us-east-1:353290830413:layer:scraping:31"
+      MemorySize: 512
+      Role: "arn:aws:iam::353290830413:role/lambda_test_role"
+      Runtime: python3.6
+      Timeout: 300
+    Type: "AWS::Lambda::Function"
+  QueryTopic: 
+    Properties: 
+      Code: 
+        ZipFile: ""
+      Description: "Returns a list of links on a particular topic taken from google."
+      FunctionName: QueryTopic
+      Handler: index.lambda_handler
+      Layers: 
+        - "arn:aws:lambda:us-east-1:353290830413:layer:boto3:38"
+        - "arn:aws:lambda:us-east-1:353290830413:layer:scraping:31"
+      MemorySize: 128
+      Role: "arn:aws:iam::353290830413:role/lambda_test_role"
+      Runtime: python3.6
+      Timeout: 600
+    Type: "AWS::Lambda::Function"
+  ReadDynamoDBRole: 
+    Properties: 
+      AssumeRolePolicyDocument: ~
+      ManagedPolicyArns: 
+        - "arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess"
+        - "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+        - "arn:aws:iam::aws:policy/service-role/AWSLambdaRole"
+      MaxSessionDuration: 3600
+      Policy: 
+        - 
+          PolicyDocument: "{ \"Version\": \"2012-10-17\", { \"Sid\": \"VisualEditor1\", \"Effect\": \"Allow\", \"Action\": [ \"dynamodb:GetShardIterator\", \"dynamodb:DescribeStream\", \"dynamodb:ListStreams\", \"dynamodb:GetRecords\" ], \"Resource\": \"*\" } ] }"
+          PolicyName: ReadDynamoDB-managed-policy
+      RoleName: ReadDynamoDBRole
+    Type: "AWS::IAM::Role"
+  ResearchTopic: 
+    Properties: 
+      Code: 
+        ZipFile: ""
+      Description: "Takes a topic, searches google for related links, and extracts text from the related links."
       FunctionName: ResearchTopic
       Handler: index.lambda_handler
-      Layers:
-        - arn:aws:lambda:us-east-1:353290830413:layer:boto3:38
-      Role: !GetAtt ReadDynamoDBRole.ARN
-      Runtime: python3.6
+      Layers: 
+        - "arn:aws:lambda:us-east-1:353290830413:layer:boto3:38"
       MemorySize: 128
+      Role: ReadDynamoDBRole.ARN
+      Runtime: python3.6
       Timeout: 700
-  TopicTable:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      AttributeDefinitions:
-      - AttributeName: Id
-        AttributeType: N
-      - AttributeName: Topic
-        AttributeType: S
-      GlobalSecondaryIndexes:
-      - IndexName: Topic-DateSubmitted-DateProcessed
-        KeySchema:
-        - AttributeName: Topic
+    Type: "AWS::Lambda::Function"
+  TopicTable: 
+    Properties: 
+      AttributeDefinitions: 
+        - 
+          AttributeName: Id
+          AttributeType: "N"
+        - 
+          AttributeName: Topic
+          AttributeType: S
+      GlobalSecondaryIndexes: 
+        - 
+          IndexName: Topic-DateSubmitted-DateProcessed
+          KeySchema: 
+            - 
+              AttributeName: Topic
+              KeyType: HASH
+          Projection: 
+            ProjectionType: ALL
+          ProvisionedThroughput: 
+            ReadCapacityUnits: 
+              Ref: ReadCapacityUnits
+            WriteCapacityUnits: 
+              Ref: WriteCapacityUnits
+      KeySchema: 
+        - 
+          AttributeName: Id
           KeyType: HASH
-        Projection:
-          ProjectionType: ALL
-        ProvisionedThroughput:
-          ReadCapacityUnits:
-            Ref: ReadCapacityUnits
-          WriteCapacityUnits:
-            Ref: WriteCapacityUnits
-      KeySchema:
-      - AttributeName: Id
-        KeyType: HASH
-      ProvisionedThroughput:
-        ReadCapacityUnits:
+      ProvisionedThroughput: 
+        ReadCapacityUnits: 
           Ref: ReadCapacityUnits
-        WriteCapacityUnits:
+        WriteCapacityUnits: 
           Ref: WriteCapacityUnits
       TableName: DocumentationAggregatorTopics
+    Type: "AWS::DynamoDB::Table"
