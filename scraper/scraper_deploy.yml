@@ -17,6 +17,20 @@ Parameters:
     MinValue: 1
     Type: Number
 Resources: 
+  ReadDynamoDBRole: 
+    Properties: 
+      AssumeRolePolicyDocument: ~
+      ManagedPolicyArns: 
+        - "arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess"
+        - "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+        - "arn:aws:iam::aws:policy/service-role/AWSLambdaRole"
+      MaxSessionDuration: 3600
+      Policy: 
+        - 
+          PolicyDocument: "{ \"Version\": \"2012-10-17\", { \"Sid\": \"VisualEditor1\", \"Effect\": \"Allow\", \"Action\": [ \"dynamodb:GetShardIterator\", \"dynamodb:DescribeStream\", \"dynamodb:ListStreams\", \"dynamodb:GetRecords\" ], \"Resource\": \"*\" } ] }"
+          PolicyName: ReadDynamoDB-managed-policy
+      RoleName: ReadDynamoDBRole
+    Type: "AWS::IAM::Role"
   ExtractText: 
     Properties: 
       Code: 
@@ -62,20 +76,6 @@ Resources:
       Runtime: python3.6
       Timeout: 600
     Type: "AWS::Lambda::Function"
-  ReadDynamoDBRole: 
-    Properties: 
-      AssumeRolePolicyDocument: ~
-      ManagedPolicyArns: 
-        - "arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess"
-        - "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-        - "arn:aws:iam::aws:policy/service-role/AWSLambdaRole"
-      MaxSessionDuration: 3600
-      Policy: 
-        - 
-          PolicyDocument: "{ \"Version\": \"2012-10-17\", { \"Sid\": \"VisualEditor1\", \"Effect\": \"Allow\", \"Action\": [ \"dynamodb:GetShardIterator\", \"dynamodb:DescribeStream\", \"dynamodb:ListStreams\", \"dynamodb:GetRecords\" ], \"Resource\": \"*\" } ] }"
-          PolicyName: ReadDynamoDB-managed-policy
-      RoleName: ReadDynamoDBRole
-    Type: "AWS::IAM::Role"
   ResearchTopic: 
     Properties: 
       Code: 
