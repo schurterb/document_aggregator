@@ -16,6 +16,34 @@ Parameters:
     MinValue: 1
     Type: Number
 Resources:
+  ReadDynamoDBRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: ReadDynamoDBRole
+      AssumeRolePolicyDocument:
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaRole
+      MaxSessionDuration: 3600
+      Policy:
+        - PolicyDocument: {
+                            "Version": "2012-10-17",
+                            {
+                              "Sid": "VisualEditor1",
+                              "Effect": "Allow",
+                              "Action": [
+                                "dynamodb:GetShardIterator",
+                                "dynamodb:DescribeStream",
+                                "dynamodb:ListStreams",
+                                "dynamodb:GetRecords"
+                              ],
+                              "Resource": "*"
+                            }
+                          ]
+                        }
+          PolicyName: ReadDynamoDB-managed-policy
+      
   GetHTMLFromURL:
     Type: AWS::Lambda::Function
     Properties:
@@ -71,7 +99,7 @@ Resources:
       Handler: index.lambda_handler
       Layers:
         - arn:aws:lambda:us-east-1:353290830413:layer:boto3:38
-      Role: arn:aws:iam::353290830413:role/lambda_test_role
+      Role: !GetAtt ReadDynamoDBRole.ARN
       Runtime: python3.6
       MemorySize: 128
       Timeout: 600
