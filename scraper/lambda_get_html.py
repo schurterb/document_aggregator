@@ -47,6 +47,7 @@ def lambda_handler(event, context):
         
 """
 
+
   TopicResearchEventMapping:
     Type: AWS::Lambda::EventSourceMapping
     Properties:
