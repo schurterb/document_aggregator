@@ -27,7 +27,7 @@ Resources:
             Effect: Allow
             Principal:
               Service:
-                Fn::GetAtt: [ ResearchTopic, Arn ]
+                - lambda.amazonaws.com
         Version: "2012-10-17"
       ManagedPolicyArns: 
         - "arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess"

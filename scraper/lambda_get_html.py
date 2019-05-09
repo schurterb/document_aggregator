@@ -47,6 +47,7 @@ def lambda_handler(event, context):
         
 """
 
+                Fn::GetAtt: [ ResearchTopic, Arn ]
 
   TopicResearchEventMapping:
     Type: AWS::Lambda::EventSourceMapping
