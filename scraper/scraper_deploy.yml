@@ -105,7 +105,8 @@ Resources:
       Layers: 
         - "arn:aws:lambda:us-east-1:353290830413:layer:boto3:38"
       MemorySize: 128
-      Role: "arn:aws:iam::353290830413:role/lambda_test_role"
+      Role: 
+        Fn::GetAtt: [ ResearchTopic, Arn ]
       Runtime: python3.6
       Timeout: 600
     Type: "AWS::Lambda::Function"
