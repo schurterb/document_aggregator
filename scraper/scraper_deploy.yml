@@ -18,6 +18,7 @@ Parameters:
     Type: Number
 Resources: 
   ReadDynamoDBRole: 
+    Type: "AWS::IAM::Role"
     Properties: 
       AssumeRolePolicyDocument: 
         Version: "2012-10-17"
@@ -43,8 +44,8 @@ Resources:
                   - "dynamodb:ListStreams"
                   - "dynamodb:GetRecords"
                 Resource: "*"
-    Type: "AWS::IAM::Role"
   ExtractText: 
+    Type: "AWS::Lambda::Function"
     Properties: 
       Code: 
         ZipFile: ""
@@ -58,8 +59,8 @@ Resources:
       Role: "arn:aws:iam::353290830413:role/lambda_test_role"
       Runtime: python3.6
       Timeout: 600
-    Type: "AWS::Lambda::Function"
   GetHTMLFromURL: 
+    Type: "AWS::Lambda::Function"
     Properties: 
       Code: 
         ZipFile: ""
@@ -73,8 +74,8 @@ Resources:
       Role: "arn:aws:iam::353290830413:role/lambda_test_role"
       Runtime: python3.6
       Timeout: 300
-    Type: "AWS::Lambda::Function"
   QueryTopic: 
+    Type: "AWS::Lambda::Function"
     Properties: 
       Code: 
         ZipFile: ""
@@ -88,8 +89,8 @@ Resources:
       Role: "arn:aws:iam::353290830413:role/lambda_test_role"
       Runtime: python3.6
       Timeout: 600
-    Type: "AWS::Lambda::Function"
   ResearchTopic: 
+    Type: "AWS::Lambda::Function"
     Properties: 
       Code: 
         ZipFile: ""
@@ -103,9 +104,10 @@ Resources:
         Fn::GetAtt: [ ReadDynamoDBRole, Arn ]
       Runtime: python3.6
       Timeout: 600
-    Type: "AWS::Lambda::Function"
   TopicTable: 
+    Type: "AWS::DynamoDB::Table"
     Properties: 
+      TableName: DocumentationAggregatorTopics
       AttributeDefinitions: 
         - 
           AttributeName: Id
@@ -136,5 +138,43 @@ Resources:
           Ref: ReadCapacityUnits
         WriteCapacityUnits: 
           Ref: WriteCapacityUnits
-      TableName: DocumentationAggregatorTopics
+  WebResultsTable: 
     Type: "AWS::DynamoDB::Table"
+    Properties: 
+      TableName: DocumentationAggregatorRawScrapingResults
+      AttributeDefinitions: 
+        - 
+          AttributeName: Id
+          AttributeType: "N"
+        - 
+          AttributeName: Topic
+          AttributeType: S
+        - 
+          AttributeName: URL
+          AttributeType: S
+      GlobalSecondaryIndexes: 
+        - 
+          IndexName: Topic-URL
+          KeySchema: 
+            - 
+              AttributeName: Topic
+              KeyType: HASH
+            - 
+              AttributeName: URL
+              KeyType: HASH
+          Projection: 
+            ProjectionType: ALL
+          ProvisionedThroughput: 
+            ReadCapacityUnits: 
+              Ref: ReadCapacityUnits
+            WriteCapacityUnits: 
+              Ref: WriteCapacityUnits
+      KeySchema: 
+        - 
+          AttributeName: Id
+          KeyType: HASH
+      ProvisionedThroughput: 
+        ReadCapacityUnits: 
+          Ref: ReadCapacityUnits
+        WriteCapacityUnits: 
+          Ref: WriteCapacityUnits
