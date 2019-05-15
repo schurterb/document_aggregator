@@ -152,23 +152,6 @@ Resources:
         - 
           AttributeName: URL
           AttributeType: S
-      GlobalSecondaryIndexes: 
-        - 
-          IndexName: Topic-URL
-          KeySchema: 
-            - 
-              AttributeName: Topic
-              KeyType: HASH
-            - 
-              AttributeName: URL
-              KeyType: HASH
-          Projection: 
-            ProjectionType: ALL
-          ProvisionedThroughput: 
-            ReadCapacityUnits: 
-              Ref: ReadCapacityUnits
-            WriteCapacityUnits: 
-              Ref: WriteCapacityUnits
       KeySchema: 
         - 
           AttributeName: Id
