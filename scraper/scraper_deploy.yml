@@ -146,12 +146,6 @@ Resources:
         - 
           AttributeName: Id
           AttributeType: "N"
-        - 
-          AttributeName: Topic
-          AttributeType: S
-        - 
-          AttributeName: URL
-          AttributeType: S
       KeySchema: 
         - 
           AttributeName: Id
