@@ -158,6 +158,9 @@ Resources:
   TopicResearchEventMapping:
     Type: AWS::Lambda::EventSourceMapping
     Properties:
-      EventSourceArn: [ TopicTable, Arn ]
-      FunctionName: ResearchTopic
-      StartingPosition: LATEST
+      BatchSize: 1 #trigger one lambda per document
+      EventSourceArn: #trigger event from the topic table
+        Fn::GetAtt: [ TopicTable, StreamArn ]
+      FunctionName:   #trigger the research function
+        Fn::GetAtt: [ ResearchTopic, Arn ]
+      StartingPosition: LATEST  #always start at the tail of the stream
