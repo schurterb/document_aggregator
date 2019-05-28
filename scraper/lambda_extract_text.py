@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+import hashlib
 import json
 import os
 os.environ["PATH"] += os.pathsep + "/opt/python"
@@ -29,8 +30,22 @@ def lambda_handler(event, context):
         searchResult = filter(tag_visible, texts)
         searchResult = "\\n".join(result.replace("\\n", "").strip() for result in searchResult)
 
+        #Prepare database entry: id, topic, url, text
+        topic = event['topic']
+        hash_object = hashlib.sha1(topic+searchResult)
+        hash_object.update(topic.encode('utf-8'))
+        hash_object.update(searchResult.encode('utf-8'))
+        index = int(hash_object.hexdigest(), 16)
+        
+        dbEntry = {"id": index, "topic": topic, "url": url, "text": searchResult}
+        
+        table = "DocumentationAggregatorRawScrapingResults"
+        print("Storing search results in dynamo db table "+table)
+        eventData = {"table": table, "data": dbEntry}
+        storeResponse = invokeLambdaFunction("storeDataInDynamoDB", eventData)
+        
         print("Returning search result of "+str(len(searchResult))+" characters")
-        return searchResult
+        return searchResult, storeResponse
         
 """
 @param functionName  name of the lambda function to invoke
