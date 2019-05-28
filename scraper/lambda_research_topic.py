@@ -24,7 +24,7 @@ def lambda_handler(event, context):
     # passing a different URL to each instance
     for link in links:
         eventData = dict(url=link.replace("\\\"", ""), topic=topic)
-        print("Extracting text from "+eventData['url'])
+        print("Extracting text from "+eventData['url']+"...")
         result = invokeLambdaFunction("ExtractText", eventData)#, asynchronous=True)
         html = result['Payload'].read()
         html = html.decode("utf-8")
