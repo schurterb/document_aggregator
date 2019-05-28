@@ -138,6 +138,8 @@ Resources:
           Ref: ReadCapacityUnits
         WriteCapacityUnits: 
           Ref: WriteCapacityUnits
+      StreamSpecification:
+        StreamViewType: NEW_IMAGE
   WebResultsTable: 
     Type: "AWS::DynamoDB::Table"
     Properties: 
