@@ -155,3 +155,9 @@ Resources:
           Ref: ReadCapacityUnits
         WriteCapacityUnits: 
           Ref: WriteCapacityUnits
+  TopicResearchEventMapping:
+    Type: AWS::Lambda::EventSourceMapping
+    Properties:
+      EventSourceArn: [ TopicTable, Arn ]
+      FunctionName: ResearchTopic
+      StartingPosition: LATEST
