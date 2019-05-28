@@ -10,7 +10,7 @@ import boto3
 def lambda_handler(event, context):
     
     #Get topic string from event data
-    topic = event['topic']
+    topic = event['Records'][0]['dynamodb']['NewImage']['Topic']['S']
     print("Researching topic: "+topic)
     
     #Get links by calling lambda_websearch synchronously
