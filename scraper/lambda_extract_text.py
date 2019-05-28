@@ -34,8 +34,10 @@ def lambda_handler(event, context):
         topic = event['topic']
         hash_object = hashlib.md5()
         hash_object.update(topic.encode('utf-8'))
-        hash_object.update(searchResult.encode('utf-8'))
+        hash_object.update(url.encode('utf-8'))
         index = int(hash_object.hexdigest(), 16)
+        while len(str(index)) > 38:
+            index = index/10
         
         dbEntry = {"Id": index, "Topic": topic, "URL": url, "Text": searchResult}
         
