@@ -23,7 +23,7 @@ def lambda_handler(event, context):
     #Get text data by calling lambda_extract_text asynchronously
     # passing a different URL to each instance
     for link in links:
-        eventData = dict(url=link.replace("\\\"", ""))
+        eventData = dict(url=link.replace("\\\"", ""), topic=topic)
         print("Extracting text from "+eventData['url'])
         result = invokeLambdaFunction("ExtractText", eventData)#, asynchronous=True)
         html = result['Payload'].read()

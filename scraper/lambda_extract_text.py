@@ -32,19 +32,22 @@ def lambda_handler(event, context):
 
         #Prepare database entry: id, topic, url, text
         topic = event['topic']
-        hash_object = hashlib.sha1(topic+searchResult)
+        hash_object = hashlib.md5()
         hash_object.update(topic.encode('utf-8'))
         hash_object.update(searchResult.encode('utf-8'))
         index = int(hash_object.hexdigest(), 16)
         
-        dbEntry = {"id": index, "topic": topic, "url": url, "text": searchResult}
+        dbEntry = {"Id": index, "Topic": topic, "URL": url, "Text": searchResult}
         
         table = "DocumentationAggregatorRawScrapingResults"
         print("Storing search results in dynamo db table "+table)
         eventData = {"table": table, "data": dbEntry}
         storeResponse = invokeLambdaFunction("storeDataInDynamoDB", eventData)
         
+        storeResponse = storeResponse['Payload'].read()
+        storeResponse = storeResponse.decode('utf-8')
         print("Returning search result of "+str(len(searchResult))+" characters")
+        
         return searchResult, storeResponse
         
 """
