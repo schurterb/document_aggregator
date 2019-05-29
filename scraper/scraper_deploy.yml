@@ -66,7 +66,8 @@ Resources:
       Runtime: python3.6
       Timeout: 600
       DeadLetterConfig:
-        Fn::GetAtt: [ AggregatorDeadLetterQueue, Arn ]
+        TargetArn:
+          Fn::GetAtt: [ AggregatorDeadLetterQueue, Arn ]
   GetHTMLFromURL: 
     Type: "AWS::Lambda::Function"
     Properties: 
@@ -83,7 +84,8 @@ Resources:
       Runtime: python3.6
       Timeout: 300
       DeadLetterConfig:
-        Fn::GetAtt: [ AggregatorDeadLetterQueue, Arn ]
+        TargetArn:
+          Fn::GetAtt: [ AggregatorDeadLetterQueue, Arn ]
   QueryTopic: 
     Type: "AWS::Lambda::Function"
     Properties: 
@@ -100,7 +102,8 @@ Resources:
       Runtime: python3.6
       Timeout: 600
       DeadLetterConfig:
-        Fn::GetAtt: [ AggregatorDeadLetterQueue, Arn ]
+        TargetArn:
+          Fn::GetAtt: [ AggregatorDeadLetterQueue, Arn ]
   ResearchTopic: 
     Type: "AWS::Lambda::Function"
     Properties: 
@@ -117,7 +120,8 @@ Resources:
       Runtime: python3.6
       Timeout: 600
       DeadLetterConfig:
-        Fn::GetAtt: [ AggregatorDeadLetterQueue, Arn ]
+        TargetArn:
+          Fn::GetAtt: [ AggregatorDeadLetterQueue, Arn ]
   TopicTable: 
     Type: "AWS::DynamoDB::Table"
     Properties: 
