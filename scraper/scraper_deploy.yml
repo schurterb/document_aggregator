@@ -44,6 +44,12 @@ Resources:
                   - "dynamodb:ListStreams"
                   - "dynamodb:GetRecords"
                 Resource: "*"
+  AggregatorDeadLetterQueue:
+    Type: "AWS::SQS::Queue"
+    Properties:
+      QueueName: "AggregatorDeadLetterQueue"
+      FifoQueue: true
+      ContentBasedDeduplication: true
   ExtractText: 
     Type: "AWS::Lambda::Function"
     Properties: 
@@ -59,6 +65,8 @@ Resources:
       Role: "arn:aws:iam::353290830413:role/lambda_test_role"
       Runtime: python3.6
       Timeout: 600
+      DeadLetterConfig:
+        Fn::GetAtt: [ AggregatorDeadLetterQueue, Arn ]
   GetHTMLFromURL: 
     Type: "AWS::Lambda::Function"
     Properties: 
@@ -74,6 +82,8 @@ Resources:
       Role: "arn:aws:iam::353290830413:role/lambda_test_role"
       Runtime: python3.6
       Timeout: 300
+      DeadLetterConfig:
+        Fn::GetAtt: [ AggregatorDeadLetterQueue, Arn ]
   QueryTopic: 
     Type: "AWS::Lambda::Function"
     Properties: 
@@ -89,6 +99,8 @@ Resources:
       Role: "arn:aws:iam::353290830413:role/lambda_test_role"
       Runtime: python3.6
       Timeout: 600
+      DeadLetterConfig:
+        Fn::GetAtt: [ AggregatorDeadLetterQueue, Arn ]
   ResearchTopic: 
     Type: "AWS::Lambda::Function"
     Properties: 
@@ -104,6 +116,8 @@ Resources:
         Fn::GetAtt: [ ReadDynamoDBRole, Arn ]
       Runtime: python3.6
       Timeout: 600
+      DeadLetterConfig:
+        Fn::GetAtt: [ AggregatorDeadLetterQueue, Arn ]
   TopicTable: 
     Type: "AWS::DynamoDB::Table"
     Properties: 
