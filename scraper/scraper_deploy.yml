@@ -47,7 +47,7 @@ Resources:
   AggregatorDeadLetterQueue:
     Type: "AWS::SQS::Queue"
     Properties:
-      QueueName: "AggregatorDeadLetterQueue"
+      QueueName: "AggregatorDeadLetterQueue.fifo"
       FifoQueue: true
       ContentBasedDeduplication: true
   ExtractText: 
