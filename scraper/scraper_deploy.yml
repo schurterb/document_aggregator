@@ -43,6 +43,8 @@ Resources:
                   - "dynamodb:DescribeStream"
                   - "dynamodb:ListStreams"
                   - "dynamodb:GetRecords"
+                  - "sqs:SendMessageBatch"
+                  - "sqs:SendMessage"
                 Resource: "*"
   AggregatorDeadLetterQueue:
     Type: "AWS::SQS::Queue"
