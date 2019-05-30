@@ -9,6 +9,10 @@ import boto3
 
 def lambda_handler(event, context):
     
+    #Only process INSERT events
+    if event['Records'][0]['eventName'] != "INSERT":
+        return
+    
     #Get topic string from event data
     topic = event['Records'][0]['dynamodb']['NewImage']['Topic']['S']
     print("Researching topic: "+topic)
