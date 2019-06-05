@@ -1,8 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: "Cloudformation Deployment for website side of the document_aggregator"
 
-Parameters:
-
 Resources:
   AggregatorWebPageDeadLetterQueue:
     Type: "AWS::SQS::Queue"
