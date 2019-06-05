@@ -46,10 +46,10 @@ Resources:
                   - "sqs:SendMessageBatch"
                   - "sqs:SendMessage"
                 Resource: "*"
-  AggregatorDeadLetterQueue:
+  AggregatorScraperDeadLetterQueue:
     Type: "AWS::SQS::Queue"
     Properties:
-      QueueName: "AggregatorDeadLetterQueue"
+      QueueName: "AggregatorScraperDeadLetterQueue"
   ExtractText: 
     Type: "AWS::Lambda::Function"
     Properties: 
@@ -67,7 +67,7 @@ Resources:
       Timeout: 600
       DeadLetterConfig:
         TargetArn:
-          Fn::GetAtt: [ AggregatorDeadLetterQueue, Arn ]
+          Fn::GetAtt: [ AggregatorScraperDeadLetterQueue, Arn ]
   GetHTMLFromURL: 
     Type: "AWS::Lambda::Function"
     Properties: 
@@ -85,7 +85,7 @@ Resources:
       Timeout: 300
       DeadLetterConfig:
         TargetArn:
-          Fn::GetAtt: [ AggregatorDeadLetterQueue, Arn ]
+          Fn::GetAtt: [ AggregatorScraperDeadLetterQueue, Arn ]
   QueryTopic: 
     Type: "AWS::Lambda::Function"
     Properties: 
@@ -103,7 +103,7 @@ Resources:
       Timeout: 600
       DeadLetterConfig:
         TargetArn:
-          Fn::GetAtt: [ AggregatorDeadLetterQueue, Arn ]
+          Fn::GetAtt: [ AggregatorScraperDeadLetterQueue, Arn ]
   ResearchTopic: 
     Type: "AWS::Lambda::Function"
     Properties: 
@@ -121,7 +121,7 @@ Resources:
       Timeout: 600
       DeadLetterConfig:
         TargetArn:
-          Fn::GetAtt: [ AggregatorDeadLetterQueue, Arn ]
+          Fn::GetAtt: [ AggregatorScraperDeadLetterQueue, Arn ]
   TopicTable: 
     Type: "AWS::DynamoDB::Table"
     Properties: 

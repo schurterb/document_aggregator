@@ -7,6 +7,7 @@ from sh import mkdir, cp, rm
 
 from buildtools import updateLambdaFunction, invokeLambdaFunction, createLambdaFunction, injectLambdaCodeIntoYAML
 
+#Add python code to lambda functions
 filesToInject = {}
 filesToInject["GetHTMLFromURL"] = "scraper/lambda_get_html.py"
 filesToInject["QueryTopic"] = "scraper/lambda_websearch.py"

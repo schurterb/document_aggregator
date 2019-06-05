@@ -45,14 +45,3 @@ def lambda_handler(event, context):
         print("No url provided.")
         return None
         
-"""
-
-                Fn::GetAtt: [ ResearchTopic, Arn ]
-
-  TopicResearchEventMapping:
-    Type: AWS::Lambda::EventSourceMapping
-    Properties:
-      EventSourceArn: arn:aws:dynamodb:us-east-1:353290830413:table/DocumentationAggregatorTopics/stream/2019-05-07T20:03:36.640
-      FunctionName: ResearchTopic
-      StartingPosition: LATEST
-"""
