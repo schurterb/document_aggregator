@@ -11,7 +11,7 @@ Resources:
     Properties: 
       Code: 
         ZipFile: ""
-      Description: "List the topics currently in DynamoDB"
+      Description: "Get the topics currently in DynamoDB"
       FunctionName: GetTopics
       Handler: index.lambda_handler
       Layers: 
