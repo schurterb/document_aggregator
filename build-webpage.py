@@ -8,7 +8,7 @@ from buildtools import invokeLambdaFunction, injectLambdaCodeIntoYAML
 
 #Add python code to lambda functions
 filesToInject = {}
-filesToInject["QueryTopic"] = "web/lambda_query_topic.py"
+filesToInject["GetTopic"] = "web/lambda_get_topic.py"
 yamlFile = "web/web_deploy.yml"
 
 print("Injecting python code into lambda files")
