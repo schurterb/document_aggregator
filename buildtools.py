@@ -28,6 +28,8 @@ def injectLambdaCodeIntoYAML(yamlFile, filesToInject):
                         
     with open(yamlFile, 'w') as f:
         f.write(yaml.dump(yamlData))
+        
+    print(yaml)
 
 """
 @param functionName  name of the lambda function to invoke
