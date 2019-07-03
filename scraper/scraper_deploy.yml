@@ -173,11 +173,6 @@ Resources:
               KeyType: RANGE
           Projection:
             ProjectionType: KEYS_ONLY
-          ProvisionedThroughput: 
-            ReadCapacityUnits: 
-              Ref: ReadCapacityUnits
-            WriteCapacityUnits: 
-              Ref: WriteCapacityUnits
       KeySchema: 
         - 
           AttributeName: Username
