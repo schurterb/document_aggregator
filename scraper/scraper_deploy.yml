@@ -162,6 +162,7 @@ Resources:
           AttributeName: URL
           AttributeType: S
       LocalSecondaryIndexes:
+        -
           IndexName: TopicAndURL
           KeySchema: 
             - 
