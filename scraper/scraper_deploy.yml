@@ -163,11 +163,8 @@ Resources:
           AttributeType: S
       LocalSecondaryIndexes:
         -
-          IndexName: TopicAndURL
+          IndexName: URL
           KeySchema: 
-            - 
-              AttributeName: Topic
-              KeyType: HASH
             -
               AttributeName: URL
               KeyType: RANGE
