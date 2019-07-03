@@ -128,29 +128,18 @@ Resources:
       TableName: DocumentationAggregatorTopics
       AttributeDefinitions: 
         - 
-          AttributeName: Id
-          AttributeType: "N"
+          AttributeName: Username
+          AttributeType: S
         - 
           AttributeName: Topic
           AttributeType: S
-      GlobalSecondaryIndexes: 
-        - 
-          IndexName: Topic-DateSubmitted-DateProcessed
-          KeySchema: 
-            - 
-              AttributeName: Topic
-              KeyType: HASH
-          Projection: 
-            ProjectionType: ALL
-          ProvisionedThroughput: 
-            ReadCapacityUnits: 
-              Ref: ReadCapacityUnits
-            WriteCapacityUnits: 
-              Ref: WriteCapacityUnits
       KeySchema: 
         - 
-          AttributeName: Id
+          AttributeName: Username
           KeyType: HASH
+        -
+          AttributeName: Topic
+          KeyType: RANGE
       ProvisionedThroughput: 
         ReadCapacityUnits: 
           Ref: ReadCapacityUnits
@@ -158,18 +147,43 @@ Resources:
           Ref: WriteCapacityUnits
       StreamSpecification:
         StreamViewType: NEW_IMAGE
-  WebResultsTable: 
+  WebResultsTable:    #Table for storing search results.  Partitioned by user.  Ordered by topic
     Type: "AWS::DynamoDB::Table"
     Properties: 
       TableName: DocumentationAggregatorRawScrapingResults
       AttributeDefinitions: 
         - 
-          AttributeName: Id
-          AttributeType: "N"
+          AttributeName: Username
+          AttributeType: S
+        - 
+          AttributeName: Topic
+          AttributeType: S
+        - 
+          AttributeName: URL
+          AttributeType: S
+      LocalSecondaryIndexes:
+          IndexName: TopicAndURL
+          KeySchema: 
+            - 
+              AttributeName: Topic
+              KeyType: HASH
+            -
+              AttributeName: URL
+              KeyType: RANGE
+          Projection:
+            ProjectionType: KEYS_ONLY
+          ProvisionedThroughput: 
+            ReadCapacityUnits: 
+              Ref: ReadCapacityUnits
+            WriteCapacityUnits: 
+              Ref: WriteCapacityUnits
       KeySchema: 
         - 
-          AttributeName: Id
+          AttributeName: Username
           KeyType: HASH
+        - 
+          AttributeName: Topic
+          KeyType: RANGE
       ProvisionedThroughput: 
         ReadCapacityUnits: 
           Ref: ReadCapacityUnits
