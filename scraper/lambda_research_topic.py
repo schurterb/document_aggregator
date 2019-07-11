@@ -15,10 +15,11 @@ def lambda_handler(event, context):
     
     #Get topic string from event data
     topic = event['Records'][0]['dynamodb']['NewImage']['Topic']['S']
+    username = event['Records'][0]['dynamodb']['NewImage']['Username']['S']
     print("Researching topic: "+topic)
     
     #Get links by calling lambda_websearch synchronously
-    eventData = dict(query=topic, numberOfLinks=10)
+    eventData = dict(username=username, query=topic, numberOfLinks=10)
     response = invokeLambdaFunction("QueryTopic", eventData)
     links = response['Payload'].read().decode("utf-8")
     links = json.loads(links)
@@ -28,7 +29,7 @@ def lambda_handler(event, context):
     # passing a different URL to each instance
     results = []
     for link in links:
-        eventData = dict(url=link.replace("\\\"", ""), topic=topic)
+        eventData = dict(username=username, url=link.replace("\\\"", ""), topic=topic)
         print("Extracting text from "+eventData['url']+"...")
         results.append(invokeLambdaFunction("ExtractText", eventData, asynchronous=True))
     return results
