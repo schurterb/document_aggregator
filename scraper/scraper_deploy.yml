@@ -170,7 +170,24 @@ Resources:
           KeyType: RANGE
       LocalSecondaryIndexes:
         -
-          IndexName: URL
+          IndexName: URLSearch
+          KeySchema: 
+            - 
+              AttributeName: Username
+              KeyType: HASH
+            -
+              AttributeName: URL
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+      ProvisionedThroughput: 
+        ReadCapacityUnits: 
+          Ref: ReadCapacityUnits
+        WriteCapacityUnits: 
+          Ref: WriteCapacityUnits
+      GlobalSecondaryIndexes:
+        -
+          IndexName: GlobalTopicSearch
           KeySchema: 
             - 
               AttributeName: Topic
@@ -179,12 +196,14 @@ Resources:
               AttributeName: URL
               KeyType: RANGE
           Projection:
-            ProjectionType: KEYS_ONLY
-      ProvisionedThroughput: 
-        ReadCapacityUnits: 
-          Ref: ReadCapacityUnits
-        WriteCapacityUnits: 
-          Ref: WriteCapacityUnits
+            ProjectionType: INCLUDE
+            NonKeyAttributes:
+              - Username
+          ProvisionedThroughput: 
+            ReadCapacityUnits: 
+              Ref: ReadCapacityUnits
+            WriteCapacityUnits: 
+              Ref: WriteCapacityUnits
   TopicResearchEventMapping:
     Type: AWS::Lambda::EventSourceMapping
     Properties:
