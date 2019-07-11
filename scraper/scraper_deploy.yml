@@ -166,17 +166,17 @@ Resources:
           AttributeName: Username
           KeyType: HASH
         - 
-          AttributeName: Topic
+          AttributeName: URL
           KeyType: RANGE
       LocalSecondaryIndexes:
         -
-          IndexName: URLSearch
+          IndexName: TopicSearch
           KeySchema: 
             - 
               AttributeName: Username
               KeyType: HASH
             -
-              AttributeName: URL
+              AttributeName: Topic
               KeyType: RANGE
           Projection:
             ProjectionType: ALL
