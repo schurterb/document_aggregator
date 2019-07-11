@@ -161,15 +161,6 @@ Resources:
         - 
           AttributeName: URL
           AttributeType: S
-      LocalSecondaryIndexes:
-        -
-          IndexName: URL
-          KeySchema: 
-            -
-              AttributeName: URL
-              KeyType: RANGE
-          Projection:
-            ProjectionType: KEYS_ONLY
       KeySchema: 
         - 
           AttributeName: Username
@@ -177,6 +168,18 @@ Resources:
         - 
           AttributeName: Topic
           KeyType: RANGE
+      LocalSecondaryIndexes:
+        -
+          IndexName: URL
+          KeySchema: 
+            - 
+              AttributeName: Topic
+              KeyType: HASH
+            -
+              AttributeName: URL
+              KeyType: RANGE
+          Projection:
+            ProjectionType: KEYS_ONLY
       ProvisionedThroughput: 
         ReadCapacityUnits: 
           Ref: ReadCapacityUnits
