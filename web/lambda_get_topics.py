@@ -8,18 +8,23 @@ os.environ["PATH"] += os.pathsep + "/opt/python"
 import boto3
 from boto3.dynamodb.conditions import Key, Attr
 
-dynamodb = boto3.client('dynamodb')
-#dynamodb = boto3.resource('dynamodb', region_name=Regions.fromName(System.getenv("AWS_DEFAULT_REGION")), endpoint_url="http://localhost:8000")
+dynamodb = boto3.resource('dynamodb')
+table = dynamodb.Table('DocumentationAggregatorTopics')
 
 def lambda_handler(event, context):
      
      # Get query item from args
      query = event['query']
+     username = str(event['username'])
      
-     # Query dynamodb for all topics currently in the topics table
-     dbTable = dynamodb.Table('TopicTable')
-     response = dbTable.query( KeyConditionExpression=Key('Topic').contains(query) )
+     # Scan dynamodb for all topics
+     results = table.query(KeyConditionExpression=Key('Username').eq('Test'))
+     
+     # List all the topics returned and send that list to the user
+     topics = []
+     for item in results['Items']:
+          if 'Topic' in item.keys():
+               topics.append(item['Topic'])
      
      # Order this list and return it
-     print(response)
-     return response
+     return topics
