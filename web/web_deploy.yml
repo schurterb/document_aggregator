@@ -23,3 +23,67 @@ Resources:
       DeadLetterConfig:
         TargetArn:
           Fn::GetAtt: [ AggregatorWebPageDeadLetterQueue, Arn ]
+  AggregatorRestApiIamRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: ''
+            Effect: 'Allow'
+            Principal:
+              Service:
+                - 'apigateway.amazonaws.com'
+            Action:
+              - 'sts:AssumeRole'
+      Path: '/'
+      Policies:
+        - PolicyName: LambdaAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: 'Allow'
+                Action: 'lambda:*'
+                Resource: !GetAtt GetTopics.Arn
+  AggregatorRestApi:
+    Type: "AWS:ApiGateway:RestApi"
+    Properties:
+      Name: "topics-api"
+      FailOnWarnings: true
+      EndpointConfiguration:
+        Types:
+          - REGIONAL
+  AggregatorTopicsResource:
+    Type: "AWS:ApiGateway:Resource"
+    Properties:
+      ParentId: !GetAtt AggregatorRestApi.RootResourceId
+      PathPart: 'topics'
+      RestApiId: !Ref AggregatorRestApi
+  AggregatorTopicsMethod:
+    Type: "AWS:ApiGateway:Method"
+    Properties:
+      HttpMethod: GET
+      Integration:
+        IntegrationHttpMethod: GET
+        Credentials: !GetAtt AggregatorRestApiIamRole.Arn
+        Type: AWS_PROXY
+        Uri: !Sub 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetTopics.Arn}/invocations'
+  AggregatorTopicsModel:
+    Type: "AWS:ApiGateway:Model"
+    Properties:
+      ContentType: 'application/json'
+      RestApiId: !Ref AggregatorRestApi
+      Schema: {}
+  AggregatorStage:
+    Type: "AWS::ApiGateway::Stage"
+    Properties:
+      DeploymentId: !Ref AggregatorDeployment
+      Description: "Development stage for aggregator web api"
+      RestApiId: !Ref AggregatorRestApi
+      StageName: 'dev'
+  AggregatorDeployment:
+    Type: "AWS::ApiGateway::Deployment"
+    DependsOn: AggregatorTopicsMethod
+    Properties:
+      Description: "Deployment for aggregator web api"
+      RestApiId: !Ref AggregatorRestApi
