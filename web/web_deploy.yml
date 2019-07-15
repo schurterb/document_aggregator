@@ -83,7 +83,8 @@ Resources:
   AggregatorStage:
     Type: "AWS::ApiGateway::Stage"
     Properties:
-      DeploymentId: !Ref AggregatorDeployment
+      DeploymentId: 
+        Ref: AggregatorDeployment
       Description: "Development stage for aggregator web api"
       RestApiId: 
         Ref: AggregatorRestApi
