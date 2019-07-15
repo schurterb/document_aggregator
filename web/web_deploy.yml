@@ -44,7 +44,8 @@ Resources:
             Statement:
               - Effect: 'Allow'
                 Action: 'lambda:*'
-                Resource: !GetAtt GetTopics.Arn
+                Resource:
+                  Fn::GetAtt: [ GetTopics, Arn ]
   AggregatorRestApi:
     Type: "AWS::ApiGateway::RestApi"
     Properties:
@@ -58,7 +59,8 @@ Resources:
     Properties:
       ParentId: !GetAtt AggregatorRestApi.RootResourceId
       PathPart: 'topics'
-      RestApiId: !Ref AggregatorRestApi
+      RestApiId:
+        Fn::GetAtt: [ AggregatorRestApi, Arn ]
   AggregatorTopicsMethod:
     Type: "AWS::ApiGateway::Method"  
     Properties:
@@ -72,18 +74,21 @@ Resources:
     Type: "AWS::ApiGateway::Model"
     Properties:
       ContentType: 'application/json'
-      RestApiId: !Ref AggregatorRestApi
+      RestApiId:
+        Fn::GetAtt: [ AggregatorRestApi, Arn ]
       Schema: {}
   AggregatorStage:
     Type: "AWS::ApiGateway::Stage"
     Properties:
       DeploymentId: !Ref AggregatorDeployment
       Description: "Development stage for aggregator web api"
-      RestApiId: !Ref AggregatorRestApi
+      RestApiId:
+        Fn::GetAtt: [ AggregatorRestApi, Arn ]
       StageName: 'dev'
   AggregatorDeployment:
     Type: "AWS::ApiGateway::Deployment"
     DependsOn: AggregatorTopicsMethod
     Properties:
       Description: "Deployment for aggregator web api"
-      RestApiId: !Ref AggregatorRestApi
+      RestApiId:
+        Fn::GetAtt: [ AggregatorRestApi, Arn ]
