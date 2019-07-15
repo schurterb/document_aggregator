@@ -57,38 +57,41 @@ Resources:
   AggregatorTopicsResource:
     Type: "AWS::ApiGateway::Resource"
     Properties:
-      ParentId: !GetAtt AggregatorRestApi.RootResourceId
+      ParentId:
+        Fn::GetAtt: [ AggregatorRestApi, RootResourceId ]
       PathPart: 'topics'
-      RestApiId:
-        Fn::GetAtt: [ AggregatorRestApi, Arn ]
+      RestApiId: 
+        Ref: AggregatorRestApi
   AggregatorTopicsMethod:
     Type: "AWS::ApiGateway::Method"  
     Properties:
       HttpMethod: GET
       Integration:
         IntegrationHttpMethod: GET
-        Credentials: !GetAtt AggregatorRestApiIamRole.Arn
+        Credentials:
+          Fn::GetAtt: [ AggregatorRestApiIamRole, Arn ]
         Type: AWS_PROXY
-        Uri: !Sub 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetTopics.Arn}/invocations'
+        Uri: 
+          Fn::Sub: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetTopics.Arn}/invocations'
   AggregatorTopicsModel:
     Type: "AWS::ApiGateway::Model"
     Properties:
       ContentType: 'application/json'
-      RestApiId:
-        Fn::GetAtt: [ AggregatorRestApi, Arn ]
+      RestApiId: 
+        Ref: AggregatorRestApi
       Schema: {}
   AggregatorStage:
     Type: "AWS::ApiGateway::Stage"
     Properties:
       DeploymentId: !Ref AggregatorDeployment
       Description: "Development stage for aggregator web api"
-      RestApiId:
-        Fn::GetAtt: [ AggregatorRestApi, Arn ]
+      RestApiId: 
+        Ref: AggregatorRestApi
       StageName: 'dev'
   AggregatorDeployment:
     Type: "AWS::ApiGateway::Deployment"
     DependsOn: AggregatorTopicsMethod
     Properties:
       Description: "Deployment for aggregator web api"
-      RestApiId:
-        Fn::GetAtt: [ AggregatorRestApi, Arn ]
+      RestApiId: 
+        Ref: AggregatorRestApi
