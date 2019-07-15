@@ -73,6 +73,10 @@ Resources:
         Type: AWS_PROXY
         Uri: 
           Fn::Sub: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetTopics.Arn}/invocations'
+      ResourceId:
+        Fn::GetAtt: [ AggregatorTopicsResource, RootResourceId ]
+      RestApiId:
+        Fn::GetAtt: [ AggregatorRestApi, RootResourceId ]
   AggregatorTopicsModel:
     Type: "AWS::ApiGateway::Model"
     Properties:
