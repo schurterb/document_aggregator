@@ -76,7 +76,7 @@ Resources:
       ResourceId:
         Fn::GetAtt: [ AggregatorTopicsResource, RootResourceId ]
       RestApiId:
-        Fn::GetAtt: [ AggregatorRestApi, RootResourceId ]
+        Ref: AggregatorRestApi
   AggregatorTopicsModel:
     Type: "AWS::ApiGateway::Model"
     Properties:
