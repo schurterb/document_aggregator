@@ -68,7 +68,7 @@ Resources:
       HttpMethod: GET
       Integration:
         IntegrationHttpMethod: GET
-        AuthorizatonType: NONE
+        AuthorizatonType: NONE #Temporary test value; update to use COGNITO_USER_POOLS later
         Credentials:
           Fn::GetAtt: [ AggregatorRestApiIamRole, Arn ]
         Type: AWS_PROXY
