@@ -66,9 +66,9 @@ Resources:
     Type: "AWS::ApiGateway::Method"  
     Properties:
       HttpMethod: GET
+      AuthorizationType: NONE #Temporary test value; update to use COGNITO_USER_POOLS later
       Integration:
         IntegrationHttpMethod: GET
-        AuthorizationType: NONE #Temporary test value; update to use COGNITO_USER_POOLS later
         Credentials:
           Fn::GetAtt: [ AggregatorRestApiIamRole, Arn ]
         Type: AWS_PROXY
