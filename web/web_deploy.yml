@@ -75,7 +75,7 @@ Resources:
         Uri: 
           Fn::Sub: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetTopics.Arn}/invocations'
       ResourceId:
-        Fn::GetAtt: [ AggregatorTopicsResource, ResourceId ]
+        Fn::GetAtt: [ AggregatorTopicsResource, Arn ]
       RestApiId:
         Ref: AggregatorRestApi
   AggregatorTopicsModel:
