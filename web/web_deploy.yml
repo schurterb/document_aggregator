@@ -74,10 +74,10 @@ Resources:
     Properties:
       ApiKeyRequired: false
       AuthorizationType: NONE #Temporary test value; update to use COGNITO_USER_POOLS later
-      HttpMethod: GET
+      HttpMethod: POST
       Integration:
         ConnectionType: INTERNET
-        IntegrationHttpMethod: GET
+        IntegrationHttpMethod: POST
         Credentials:
           Fn::GetAtt: [ AggregatorRestApiIamRole, Arn ]
         PassthroughBehavior: WHEN_NO_MATCH
