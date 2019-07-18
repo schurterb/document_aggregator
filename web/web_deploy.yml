@@ -38,7 +38,7 @@ Resources:
               - 'sts:AssumeRole'
       Path: '/'
       Policies:
-        - PolicyName: LambdaAccess
+        - PolicyName: 'ApiLambdaAccess'
           PolicyDocument:
             Version: '2012-10-17'
             Statement:
@@ -46,14 +46,21 @@ Resources:
                 Action: 'lambda:*'
                 Resource:
                   Fn::GetAtt: [ GetTopics, Arn ]
+        - PolicyName: 'ApiLogging'
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: 'Allow'
+                Action:
+                  - 'logs:CreateLogGroup'
+                  - 'logs:CreateLogStream'
+                  - 'logs:PutLogEvents'
+                Resource: 'arn:aws:logs:*:*:*''
   AggregatorRestApi:
     Type: "AWS::ApiGateway::RestApi"
     Properties:
-      Name: "topics-api"
-      FailOnWarnings: true
-      EndpointConfiguration:
-        Types:
-          - REGIONAL
+      Name: "aggregator-api"
+      Description: "A public API for accessing the web aggregator lambda functions for use in a serverless website"
   AggregatorTopicsResource:
     Type: "AWS::ApiGateway::Resource"
     Properties:
@@ -65,12 +72,15 @@ Resources:
   AggregatorTopicsMethod:
     Type: "AWS::ApiGateway::Method"  
     Properties:
-      HttpMethod: GET
+      ApiKeyRequired: false
       AuthorizationType: NONE #Temporary test value; update to use COGNITO_USER_POOLS later
+      HttpMethod: GET
       Integration:
+        ConnectionType: INTERNET
         IntegrationHttpMethod: GET
         Credentials:
           Fn::GetAtt: [ AggregatorRestApiIamRole, Arn ]
+        PassthroughBehavior: WHEN_NO_MATCH
         Type: AWS_PROXY
         Uri: 
           Fn::Sub: 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetTopics.Arn}/invocations'
@@ -85,19 +95,19 @@ Resources:
       RestApiId: 
         Ref: AggregatorRestApi
       Schema: {}
-  AggregatorStage:
+  AggregatorDevStage:
     Type: "AWS::ApiGateway::Stage"
     Properties:
       DeploymentId: 
-        Ref: AggregatorDeployment
+        Ref: AggregatorDevDeployment
       Description: "Development stage for aggregator web api"
       RestApiId: 
         Ref: AggregatorRestApi
       StageName: 'dev'
-  AggregatorDeployment:
+  AggregatorDevDeployment:
     Type: "AWS::ApiGateway::Deployment"
     DependsOn: AggregatorTopicsMethod
     Properties:
-      Description: "Deployment for aggregator web api"
+      Description: "Deployment of develepment state for aggregator web api"
       RestApiId: 
         Ref: AggregatorRestApi
