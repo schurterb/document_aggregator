@@ -25,7 +25,7 @@ def lambda_handler(event, context):
      # List all the topics returned and send that list to the user
      topics = []
      for item in results['Items']:
-          if 'Topic' in item.keys():
+          if 'Topic' in item.keys() and query in item['Topic']:
                topics.append(item['Topic'])
      
      # Order this list and return it
