@@ -25,6 +25,7 @@ print("Storing "+sourceFile+" in s3...")
 
 with open(sourceFile, 'r') as f:
     body_data = f.read()
+    print(body_data)
 
 data = { "bucket": project_bucket, "key": destinationFile, "body": body_data, "content_type": "text/html" }
 #Cannot have ACL set to public for static webpage
