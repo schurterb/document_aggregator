@@ -78,6 +78,9 @@ Resources:
       Integration:
         ConnectionType: INTERNET
         IntegrationHttpMethod: POST
+        RequestTemplates:
+          "query" : "$input.param('query')"
+          "username" : "$input.param('username')"
         Credentials:
           Fn::GetAtt: [ AggregatorRestApiIamRole, Arn ]
         PassthroughBehavior: WHEN_NO_MATCH
