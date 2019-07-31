@@ -15,7 +15,6 @@ print("Injecting python code into lambda files")
 injectLambdaCodeIntoYAML(yamlFile, filesToInject)
 print("Finished injecting python code into lambda files")
 
-
 # Deploy a static web page to S3.
 
 sourceFile = "web/index.html"
@@ -25,7 +24,6 @@ print("Storing "+sourceFile+" in s3...")
 
 with open(sourceFile, 'r') as f:
     body_data = f.read()
-    print("Body type = "+str(type(body_data)))
 
 data = { "bucket": project_bucket, "key": destinationFile, "body": body_data, "content_type": "text" }
 #Cannot have ACL set to public for static webpage
