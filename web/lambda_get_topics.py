@@ -13,7 +13,21 @@ table = dynamodb.Table('DocumentationAggregatorTopics')
 
 def lambda_handler(event, context):
      
-     body = json.loads(event['body'])
+     print(event)
+     
+     try:
+          #First, try parsing the JSON
+          body = json.loads(event['body'])
+     except:
+          #If that fails, which it probably will for web api calls
+          body = event['body']
+          splitBody = body.split("&")
+          body = {}
+          for string in splitBody:
+               splitString = string.split("=")
+               key = splitString[0]
+               value = splitString[1]
+               body[key] = value
      
      # Get query item from args
      query = body['query']
