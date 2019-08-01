@@ -79,7 +79,7 @@ Resources:
         ConnectionType: INTERNET
         IntegrationHttpMethod: POST
         RequestTemplates:
-           "application/json": "{ body : $input.json($) }"
+           "application/json": "{ \"body\" : \"$input.json($)\" }"
         Credentials:
           Fn::GetAtt: [ AggregatorRestApiIamRole, Arn ]
         PassthroughBehavior: WHEN_NO_MATCH
