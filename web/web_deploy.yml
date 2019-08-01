@@ -79,7 +79,7 @@ Resources:
         ConnectionType: INTERNET
         IntegrationHttpMethod: POST
         RequestTemplates:
-           "application/json": "{\n \"query\" : $input.param('query'),\n \"username\": $input.param('username') \n}"
+           "application/x-www-form-urlencoded": "{\n \"query\" : $input.param('query'),\n \"username\": $input.param('username') \n}"
         Credentials:
           Fn::GetAtt: [ AggregatorRestApiIamRole, Arn ]
         PassthroughBehavior: WHEN_NO_MATCH
