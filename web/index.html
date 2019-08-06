@@ -22,17 +22,6 @@
                 text-align: center;
             }
         </style>
-        <script type="text/javascript">
-            function SubForm (){
-                $.ajax({
-                    url:'https://i2xk3y8vo1.execute-api.us-east-1.amazonaws.com/dev/topics',
-                    type:'post',
-                    data:$('#query-form').serialize(),
-                    success:function(){
-                        alert("success");
-                    }
-                });
-            }
         </script>
     </head>
     <body class="gray">
