@@ -114,8 +114,13 @@ def uploadFilesToS3(bucket, path):
     s3 = boto3.resource('s3')
     bucket = s3.Bucket(bucket)
  
+    responses = []
     for subdir, dirs, files in os.walk(path):
         for file in files:
             full_path = os.path.join(subdir, file)
             with open(full_path, 'rb') as data:
-                bucket.put_object(Key=full_path[len(path)+1:], Body=data)
+                response = bucket.put_object(Key=full_path[len(path)+1:], Body=data)
+            responses.append(response)
+            print("TESTING:  ", full_path)
+            print(response)
+    return responses
