@@ -22,7 +22,7 @@
                 text-align: center;
             }
         </style>
-        </script>
+        <script src="js/webAggregatorFunctions.js"></script>
     </head>
     <body class="gray">
 
@@ -34,9 +34,9 @@
             
             <form id="query-form" style="align-self: center;" action="https://9e5oai8ycf.execute-api.us-east-1.amazonaws.com/dev/topics" method="POST" target="outputFrame">
                 Topic:
-                <input type="text" name="query" value="">
-                <input type="hidden" name="username" value="Test">
-                <input type="submit" value="Search">
+                <input type="text" name="query" id="query" value="">
+                <input type="hidden" name="username" id="username" value="Test">
+                <input name="searchButton" id="searchButton" type="submit" value="Search">
             </form>
             
             <br/>
