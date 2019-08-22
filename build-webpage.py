@@ -4,7 +4,7 @@
 import os
 from zipfile import ZipFile
 
-from buildtools import invokeLambdaFunction, injectLambdaCodeIntoYAML
+from buildtools import invokeLambdaFunction, injectLambdaCodeIntoYAML, uploadFilesToS3
 
 #Add python code to lambda functions
 filesToInject = {}
@@ -28,6 +28,11 @@ with open(sourceFile, 'r') as f:
 data = { "bucket": project_bucket, "key": destinationFile, "body": body_data, "content_type": "text" }
 #Cannot have ACL set to public for static webpage
 
-print("Storing web pages in s3")
-print(invokeLambdaFunction("storeObjectInS3", data))
-print("Finished storing web pages in s3")
+#print("Storing web pages in s3")
+#print(invokeLambdaFunction("storeObjectInS3", data))
+#print("Finished storing web pages in s3")
+
+html_path = "web/html"
+print("Uploading "+html_path+" to s3 bucket "+project_bucket)
+uploadFilesToS3(project_bucket, html_path)
+print("Finished uploading "+html_path+" to s3 bucket "+project_bucket)

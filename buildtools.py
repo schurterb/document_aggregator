@@ -100,3 +100,22 @@ def createOrUpdateLambdaLayer(name, zipfile, **kwargs):
             LicenseInfo=kwargs.get('license', "")
             )
     return response
+    
+"""
+
+    session = boto3.Session(
+        aws_access_key_id='YOUR_AWS_ACCESS_KEY_ID',
+        aws_secret_access_key='YOUR_AWS_SECRET_ACCESS_KEY_ID',
+        region_name='YOUR_AWS_ACCOUNT_REGION'
+    )
+"""
+def uploadFilesToS3(bucket, path):
+    
+    s3 = boto3.resource('s3')
+    bucket = s3.Bucket(bucket)
+ 
+    for subdir, dirs, files in os.walk(path):
+        for file in files:
+            full_path = os.path.join(subdir, file)
+            with open(full_path, 'rb') as data:
+                bucket.put_object(Key=full_path[len(path)+1:], Body=data)
