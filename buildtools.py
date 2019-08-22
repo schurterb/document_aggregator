@@ -111,11 +111,20 @@ def createOrUpdateLambdaLayer(name, zipfile, **kwargs):
 """
 def uploadFilesToS3(bucket, path):
     
+    print("Getting S3 bucket")
     s3 = boto3.resource('s3')
     bucket = s3.Bucket(bucket)
+    if bucket is not None:
+        print("  SUCCESS")
+    else:
+        print("  FAIL")
+        
  
     responses = []
     for subdir, dirs, files in os.walk(path):
+        print("subdir: ", subdir)
+        print("dirs: ", dirs)
+        print("files: ", files)
         for file in files:
             full_path = os.path.join(subdir, file)
             with open(full_path, 'rb') as data:
