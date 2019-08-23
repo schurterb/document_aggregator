@@ -119,7 +119,7 @@ def uploadFilesToS3(bucket, path):
     else:
         print("  FAIL")
         
- 
+    print("Copying files on path "+path)
     responses = []
     for subdir, dirs, files in os.walk(path):
         print("subdir: ", subdir)
