@@ -32,7 +32,7 @@ data = { "bucket": project_bucket, "key": destinationFile, "body": body_data, "c
 #print(invokeLambdaFunction("storeObjectInS3", data))
 #print("Finished storing web pages in s3")
 
-html_path = "./web/html"
+html_path = os.getcwd()+"/web/html"
 print("Uploading "+html_path+" to s3 bucket "+project_bucket)
 uploadFilesToS3(project_bucket, html_path)
 print("Finished uploading "+html_path+" to s3 bucket "+project_bucket)
