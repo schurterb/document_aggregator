@@ -10,7 +10,9 @@ python3 build-scraper.py
 echo "Finished building scraper"
 
 echo "Building webpage"
-echo " ################ SANITY CHECK ##################"
+echo " ################ BEGIN SANITY CHECK ##################"
+cat build-webpage.py
+echo " ################ END SANITY CHECK ##################"
 python3 build-webpage.py
 echo "Finished building webpage"
 
