@@ -35,6 +35,10 @@ data = { "bucket": project_bucket, "key": destinationFile, "body": body_data, "c
 print(" ################ SANITY CHECK ##################")
 print(" ################ SANITY CHECK ##################")
 
+print("")
+print("os.getcwd()=",os.getcwd())
+print("")
+
 html_path = os.getcwd()+"/web/html"
 print("Uploading "+html_path+" to s3 bucket "+project_bucket)
 uploadFilesToS3(project_bucket, html_path)
