@@ -11,9 +11,9 @@ echo "Finished building scraper"
 
 echo "Building webpage"
 echo " ################ BEGIN SANITY CHECK ##################"
-cat build-webpage.py
+cat new-build-webpage.py
 echo " ################ END SANITY CHECK ##################"
-python3 build-webpage.py
+python3 new-build-webpage.py
 echo "Finished building webpage"
 
 deactivate
