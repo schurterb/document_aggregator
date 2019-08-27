@@ -17,21 +17,6 @@ print("Finished injecting python code into lambda files")
 
 # Deploy a static web page to S3.
 
-sourceFile = "web/index.html"
-destinationFile = "index.html"
-project_bucket = "documentation-aggregator-web"
-print("Storing "+sourceFile+" in s3...")
-
-with open(sourceFile, 'r') as f:
-    body_data = f.read()
-
-data = { "bucket": project_bucket, "key": destinationFile, "body": body_data, "content_type": "text" }
-#Cannot have ACL set to public for static webpage
-
-#print("Storing web pages in s3")
-#print(invokeLambdaFunction("storeObjectInS3", data))
-#print("Finished storing web pages in s3")
-
 print(" ################ SANITY CHECK ##################")
 print(" ################ SANITY CHECK ##################")
 
@@ -40,6 +25,7 @@ print("os.getcwd()=",os.getcwd())
 print("")
 
 html_path = os.getcwd()+"/web/html"
+project_bucket = "documentation-aggregator-web"
 print("Uploading "+html_path+" to s3 bucket "+project_bucket)
 uploadFilesToS3(project_bucket, html_path)
 print("Finished uploading "+html_path+" to s3 bucket "+project_bucket)
