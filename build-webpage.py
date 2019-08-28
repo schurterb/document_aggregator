@@ -29,7 +29,7 @@ print("")
 
 html_path = os.getcwd()+"/web/html"
 project_bucket = "documentation-aggregator-web"
-content_type = "text"
+content_type = "text/html"
 print("Uploading "+html_path+" to s3 bucket "+project_bucket)
 uploadFilesToS3(project_bucket, html_path, content_type)
 print("Finished uploading "+html_path+" to s3 bucket "+project_bucket)
