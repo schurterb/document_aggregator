@@ -109,7 +109,7 @@ def createOrUpdateLambdaLayer(name, zipfile, **kwargs):
         region_name='YOUR_AWS_ACCOUNT_REGION'
     )
 """
-def uploadFilesToS3(bucket, path):
+def uploadFilesToS3(bucket, path, content_type):
     
     print("Getting S3 bucket")
     s3 = boto3.resource('s3')
@@ -128,7 +128,7 @@ def uploadFilesToS3(bucket, path):
         for file in files:
             full_path = os.path.join(subdir, file)
             with open(full_path, 'rb') as data:
-                response = bucket.put_object(Key=full_path[len(path)+1:], Body=data)
+                response = bucket.put_object(Key=full_path[len(path)+1:], Body=data, ContentType=content_type)
             responses.append(response)
             print("TESTING:  ", full_path)
             print(response)

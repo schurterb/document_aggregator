@@ -17,6 +17,9 @@ print("Finished injecting python code into lambda files")
 
 # Deploy a static web page to S3.
 
+sourceFile = "web/index.html"
+destinationFile = "index.html"
+
 print(" ################ SANITY CHECK ##################")
 print(" ################ SANITY CHECK ##################")
 
@@ -26,8 +29,9 @@ print("")
 
 html_path = os.getcwd()+"/web/html"
 project_bucket = "documentation-aggregator-web"
+content_type = "text"
 print("Uploading "+html_path+" to s3 bucket "+project_bucket)
-uploadFilesToS3(project_bucket, html_path)
+uploadFilesToS3(project_bucket, html_path, content_type)
 print("Finished uploading "+html_path+" to s3 bucket "+project_bucket)
 
 print(" ################ SANITY CHECK ##################")
