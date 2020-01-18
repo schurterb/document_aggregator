@@ -4,22 +4,21 @@ phases:
     install:
         commands:
             - project_name=document_aggregator
-            - /bin/bash codebuild/install.sh
+            - /bin/bash codebuild/scripts/install.sh
     pre_build:
         commands:
-            - /bin/bash codebuild/prebuild.sh
+            - /bin/bash codebuild/scripts/prebuild.sh
     build:
         commands:
-            - /bin/bash codebuild/build.sh
+            - /bin/bash codebuild/scripts/build.sh
     post_build:
         commands:
-            - /bin/bash codebuild/postbuild.sh
+            - /bin/bash codebuild/scripts/postbuild.sh
             
 artifacts:
     files:
-        - scraper/scraper_deploy.yml
-        - web/web_deploy.yml
+        - cloudformation/scraper_deploy.yml
     secondary-artifacts:
         BuildArtifact:
             files:
-                - scraper/scraper_deploy.yml
+                - cloudformation/scraper_deploy.yml

@@ -13,6 +13,6 @@ pip install --upgrade virtualenv
 virtualenv -p python3 $project_name
 source $project_name/bin/activate
 
-pip install -r requirements.txt
+pip install -r scripts/requirements.txt
 
 deactivate
