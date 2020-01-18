@@ -1,5 +1,0 @@
-boto3==1.9.130
-pyyaml==5.1
-sh==1.12.13
-selenium==3.141.0
-beautifulsoup4==4.4.0
