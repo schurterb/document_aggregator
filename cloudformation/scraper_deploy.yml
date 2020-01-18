@@ -1,0 +1,215 @@
+--- 
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "Cloudformation Deployment segments for the scraper side of the document_aggregator"
+Parameters: 
+  ReadCapacityUnits: 
+    ConstraintDescription: "Keep throughput between 1 and 5 to stay within free tier"
+    Default: 1
+    Description: "Provisioned Read Throughput for DynamoDB"
+    MaxValue: 5
+    MinValue: 1
+    Type: Number
+  WriteCapacityUnits: 
+    ConstraintDescription: "Keep throughput between 1 and 5 to stay within free tier"
+    Default: 1
+    Description: "Provisioned Write Throughput for DynamoDB"
+    MaxValue: 5
+    MinValue: 1
+    Type: Number
+Resources: 
+  ReadDynamoDBRole: 
+    Type: "AWS::IAM::Role"
+    Properties: 
+      AssumeRolePolicyDocument: 
+        Version: "2012-10-17"
+        Statement: 
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: "sts:AssumeRole"
+      ManagedPolicyArns: 
+        - "arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess"
+        - "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+        - "arn:aws:iam::aws:policy/service-role/AWSLambdaRole"
+      MaxSessionDuration: 3600
+      Policies: 
+        - PolicyName: ReadDynamoDB-managed-policy
+          PolicyDocument: 
+            Version: "2012-10-17"
+            Statement: 
+              - Effect: Allow
+                Action: 
+                  - "dynamodb:GetShardIterator"
+                  - "dynamodb:DescribeStream"
+                  - "dynamodb:ListStreams"
+                  - "dynamodb:GetRecords"
+                  - "sqs:SendMessageBatch"
+                  - "sqs:SendMessage"
+                Resource: "*"
+  AggregatorScraperDeadLetterQueue:
+    Type: "AWS::SQS::Queue"
+    Properties:
+      QueueName: "AggregatorScraperDeadLetterQueue"
+  ExtractText: 
+    Type: "AWS::Lambda::Function"
+    Properties: 
+      Code: 
+        ZipFile: ""
+      Description: "Extracts visible text from the html returned by the provided url."
+      FunctionName: ExtractText
+      Handler: index.lambda_handler
+      Layers: 
+        - "arn:aws:lambda:us-east-1:353290830413:layer:boto3:38"
+        - "arn:aws:lambda:us-east-1:353290830413:layer:scraping:31"
+      MemorySize: 128
+      Role: "arn:aws:iam::353290830413:role/lambda_test_role"
+      Runtime: python3.6
+      Timeout: 600
+      DeadLetterConfig:
+        TargetArn:
+          Fn::GetAtt: [ AggregatorScraperDeadLetterQueue, Arn ]
+  GetHTMLFromURL: 
+    Type: "AWS::Lambda::Function"
+    Properties: 
+      Code: 
+        ZipFile: ""
+      Description: "Returns the html associated with a particular url."
+      FunctionName: GetHTMLFromURL
+      Handler: index.lambda_handler
+      Layers: 
+        - "arn:aws:lambda:us-east-1:353290830413:layer:headlessChromium:1"
+        - "arn:aws:lambda:us-east-1:353290830413:layer:scraping:31"
+      MemorySize: 512
+      Role: "arn:aws:iam::353290830413:role/lambda_test_role"
+      Runtime: python3.6
+      Timeout: 300
+      DeadLetterConfig:
+        TargetArn:
+          Fn::GetAtt: [ AggregatorScraperDeadLetterQueue, Arn ]
+  QueryTopic: 
+    Type: "AWS::Lambda::Function"
+    Properties: 
+      Code: 
+        ZipFile: ""
+      Description: "Returns a list of links on a particular topic taken from google."
+      FunctionName: QueryTopic
+      Handler: index.lambda_handler
+      Layers: 
+        - "arn:aws:lambda:us-east-1:353290830413:layer:boto3:38"
+        - "arn:aws:lambda:us-east-1:353290830413:layer:scraping:31"
+      MemorySize: 128
+      Role: "arn:aws:iam::353290830413:role/lambda_test_role"
+      Runtime: python3.6
+      Timeout: 600
+      DeadLetterConfig:
+        TargetArn:
+          Fn::GetAtt: [ AggregatorScraperDeadLetterQueue, Arn ]
+  ResearchTopic: 
+    Type: "AWS::Lambda::Function"
+    Properties: 
+      Code: 
+        ZipFile: ""
+      Description: "Takes a topic, searches google for related links, and extracts text from the related links."
+      FunctionName: ResearchTopic
+      Handler: index.lambda_handler
+      Layers: 
+        - "arn:aws:lambda:us-east-1:353290830413:layer:boto3:38"
+      MemorySize: 128
+      Role: 
+        Fn::GetAtt: [ ReadDynamoDBRole, Arn ]
+      Runtime: python3.6
+      Timeout: 600
+      DeadLetterConfig:
+        TargetArn:
+          Fn::GetAtt: [ AggregatorScraperDeadLetterQueue, Arn ]
+  TopicTable: 
+    Type: "AWS::DynamoDB::Table"
+    Properties: 
+      TableName: DocumentationAggregatorTopics
+      AttributeDefinitions: 
+        - 
+          AttributeName: Username
+          AttributeType: S
+        - 
+          AttributeName: Topic
+          AttributeType: S
+      KeySchema: 
+        - 
+          AttributeName: Username
+          KeyType: HASH
+        -
+          AttributeName: Topic
+          KeyType: RANGE
+      ProvisionedThroughput: 
+        ReadCapacityUnits: 
+          Ref: ReadCapacityUnits
+        WriteCapacityUnits: 
+          Ref: WriteCapacityUnits
+      StreamSpecification:
+        StreamViewType: NEW_IMAGE
+  WebResultsTable:    #Table for storing search results.  Partitioned by user.  Ordered by topic
+    Type: "AWS::DynamoDB::Table"
+    Properties: 
+      TableName: DocumentationAggregatorRawScrapingResults
+      AttributeDefinitions: 
+        - 
+          AttributeName: Username
+          AttributeType: S
+        - 
+          AttributeName: Topic
+          AttributeType: S
+        - 
+          AttributeName: URL
+          AttributeType: S
+      KeySchema: 
+        - 
+          AttributeName: Username
+          KeyType: HASH
+        - 
+          AttributeName: URL
+          KeyType: RANGE
+      LocalSecondaryIndexes:
+        -
+          IndexName: TopicSearch
+          KeySchema: 
+            - 
+              AttributeName: Username
+              KeyType: HASH
+            -
+              AttributeName: Topic
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+      ProvisionedThroughput: 
+        ReadCapacityUnits: 
+          Ref: ReadCapacityUnits
+        WriteCapacityUnits: 
+          Ref: WriteCapacityUnits
+      GlobalSecondaryIndexes:
+        -
+          IndexName: GlobalTopicSearch
+          KeySchema: 
+            - 
+              AttributeName: Topic
+              KeyType: HASH
+            -
+              AttributeName: URL
+              KeyType: RANGE
+          Projection:
+            ProjectionType: INCLUDE
+            NonKeyAttributes:
+              - Username
+          ProvisionedThroughput: 
+            ReadCapacityUnits: 
+              Ref: ReadCapacityUnits
+            WriteCapacityUnits: 
+              Ref: WriteCapacityUnits
+  TopicResearchEventMapping:
+    Type: AWS::Lambda::EventSourceMapping
+    Properties:
+      BatchSize: 1 #trigger one lambda per document
+      EventSourceArn: #trigger event from the topic table
+        Fn::GetAtt: [ TopicTable, StreamArn ]
+      FunctionName:   #trigger the research function
+        Fn::GetAtt: [ ResearchTopic, Arn ]
+      StartingPosition: LATEST  #always start at the tail of the stream
