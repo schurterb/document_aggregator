@@ -7,7 +7,7 @@ else
    project_name=aws_project
 fi
 
-. cleanup_virtual_env.sh $project_name
+./scripts/cleanup_virtual_env.sh $project_name
 
 pip install --upgrade virtualenv
 virtualenv -p python3 $project_name

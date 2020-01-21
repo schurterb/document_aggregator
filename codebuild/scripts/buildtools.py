@@ -6,6 +6,7 @@ import json
 import boto3
 import os
 
+
 """
 @param yamlFile  the path to the yaml file to modify
 @param filesToInject  a map contianing the path to python files to inject
@@ -13,16 +14,25 @@ import os
 """
 def injectLambdaCodeIntoYAML(yamlFile, filesToInject):
     
+    class literal(str):
+        pass
+    def literal_presenter(dumper, data):
+        return dumper.represent_scalar('tag:yaml.org,2002:str', data, style='|')
+    yaml.add_representer(literal, literal_presenter)
+
     with open(yamlFile, 'r') as f:
         yamlData = yaml.load(f.read())
-       
+    
     for lambdaName in filesToInject.keys():
         for resource in yamlData['Resources']:
             if lambdaName == resource:
                 if yamlData['Resources'][lambdaName]['Type'] == 'AWS::Lambda::Function':
                     try:
                         with open(filesToInject[lambdaName], 'r') as f:
-                            yamlData['Resources'][lambdaName]['Properties']['Code']['ZipFile'] = f.read()
+                            code = { 'ZipFile': literal(f.read().encode("utf-8")) }
+                            yamlData['Resources'][lambdaName]['Properties']['Code'] = code
+                        # with open(filesToInject[lambdaName], 'r') as f:
+                        #     yamlData['Resources'][lambdaName]['Properties']['Code']['ZipFile'] = literal(f.read())
                     except Exception as e:
                         print("Failed to load",filesToInject[lambdaName],"for lambda function",lambdaName,"  Reason:",str(e))
                         
