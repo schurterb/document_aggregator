@@ -9,10 +9,10 @@ from buildtools import updateLambdaFunction, invokeLambdaFunction, createLambdaF
 
 #Add python code to lambda functions
 filesToInject = {}
-filesToInject["GetHTMLFromURL"] = "src/scraper/lambda_get_html.py"
-filesToInject["QueryTopic"] = "src/scraper/lambda_websearch.py"
-filesToInject["ExtractText"] = "src/scraper/lambda_extract_text.py"
-filesToInject["ResearchTopic"] = "src/scraper/lambda_research_topic.py"
+filesToInject["GetHTMLFromURL"] = "src/main/python/scraper/lambda_get_html.py"
+filesToInject["QueryTopic"] = "src/main/python/scraper/lambda_websearch.py"
+filesToInject["ExtractText"] = "src/main/python/scraper/lambda_extract_text.py"
+filesToInject["ResearchTopic"] = "src/main/python/scraper/lambda_research_topic.py"
 yamlFile = "cloudformation/scraper_deploy.yml"
 
 print("Injecting python code into lambda files")
