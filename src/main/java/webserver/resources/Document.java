@@ -12,13 +12,13 @@ public class Document {
 
 
     //Constructor(s)
-    public Summary(String topic, String url, String document, String username) {
+    public Document(String topic, String url, String document, String username) {
         _topic = topic;
         _url = url;
         _document = document;
         _username = username;
     }
-    public Summary(String topic, String url, String document, String username, String dateLastUpdated) {
+    public Document(String topic, String url, String document, String username, String dateLastUpdated) {
         _topic = topic;
         _url = url;
         _document = document;
@@ -40,7 +40,7 @@ public class Document {
     public String getUrl() {
         return _url;
     }
-    \
+    
     public void setDocument(String document) {
         _document = document;
     }
