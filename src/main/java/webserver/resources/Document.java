@@ -7,21 +7,21 @@ public class Document {
     private String _username = null;
     private String _topic = null;
     private String _url = null;
-    private String _document = null;
+    private String _text = null;
     private String _dateLastUpdated = null;
 
 
     //Constructor(s)
-    public Document(String topic, String url, String document, String username) {
+    public Document(String topic, String url, String text, String username) {
         _topic = topic;
         _url = url;
-        _document = document;
+        _text = text;
         _username = username;
     }
-    public Document(String topic, String url, String document, String username, String dateLastUpdated) {
+    public Document(String topic, String url, String text, String username, String dateLastUpdated) {
         _topic = topic;
         _url = url;
-        _document = document;
+        _text = text;
         _username = username;
         _dateLastUpdated = dateLastUpdated;
     }
@@ -41,11 +41,11 @@ public class Document {
         return _url;
     }
     
-    public void setDocument(String document) {
-        _document = document;
+    public void setText(String text) {
+        _text = text;
     }
-    public String getDocument() {
-        return _document;
+    public String getText() {
+        return _text;
     }
 
     public void setUsername(String username) {

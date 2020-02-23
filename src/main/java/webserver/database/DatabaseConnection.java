@@ -14,7 +14,7 @@ public interface DatabaseConnection {
     //Database methods for documents
     public List<Document> listDocumentsByTopic( String topic, String user );
     public List<Document> listDocumentsBySummary( String summaryId, String user );
-    public Document getDocument( String documentLink );
+    public Document getDocument( String documentLink, String user );
 
     //Database methods for web links
     public List<String> listWebLinksByTopic( String topic, String user );
