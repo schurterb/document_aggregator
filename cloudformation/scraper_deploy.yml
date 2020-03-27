@@ -1,4 +1,3 @@
---- 
 AWSTemplateFormatVersion: "2010-09-09"
 Description: "Cloudformation Deployment segments for the scraper side of the document_aggregator"
 Parameters: 

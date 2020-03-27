@@ -29,7 +29,8 @@ def injectLambdaCodeIntoYAML(yamlFile, filesToInject):
                 if yamlData['Resources'][lambdaName]['Type'] == 'AWS::Lambda::Function':
                     try:
                         with open(filesToInject[lambdaName], 'r') as f:
-                            code = { 'ZipFile': literal(f.read().encode("utf-8")) }
+                            # code = { 'ZipFile': literal(f.read().encode("utf-8")) }
+                            code = { 'ZipFile': { 'Fn::Join' : f.readlines() } }
                             yamlData['Resources'][lambdaName]['Properties']['Code'] = code
                         # with open(filesToInject[lambdaName], 'r') as f:
                         #     yamlData['Resources'][lambdaName]['Properties']['Code']['ZipFile'] = literal(f.read())
