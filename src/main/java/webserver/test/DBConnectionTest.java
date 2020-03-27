@@ -2,58 +2,58 @@ package webserver.test;
 
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import webserver.database.DynamoDBConnection;
 import webserver.resources.*;
 
 public class DBConnectionTest {
-    private static final Logger _logger = LogManager.getLogger("DBConnectionTest");
+    private static final Logger log = LogManager.getLogger(DBConnectionTest.class);
     public static void main(String[] args) {
-
-        _logger.trace("Connecting to DynamoDB");
+        
+        log.info("Connecting to DynamoDB");
         DynamoDBConnection conn = new DynamoDBConnection();
         
-        System.out.println("Current topics: ");
+        log.info("Current topics: ");
         for(Topic topic : conn.listTopics("Test"))
-            System.out.println(" - "+topic.getTopic()+" by "+topic.getUsername());
+            log.info(" - "+topic.getTopic()+" by "+topic.getUsername());
             
-        System.out.println("Adding test topic: ");
+        log.info("Adding test topic: ");
         conn.addTopic("Test Topic", "Test");
         
-        System.out.println("Current topics: ");
+        log.info("Current topics: ");
         for(Topic topic : conn.listTopics("Test"))
-            System.out.println(" - "+topic.getTopic()+" by "+topic.getUsername());
+            log.info(" - "+topic.getTopic()+" by "+topic.getUsername());
         
-        System.out.println("Removing test topic:");
+        log.info("Removing test topic:");
         conn.addTopic("Test Topic", "Test");
         
         String testTopic = null;
-        System.out.println("Current topics: ");
+        log.info("Current topics: ");
         for(Topic topic : conn.listTopics("Test"))
         {  
             if(testTopic == null)
                 testTopic = topic.getTopic();
-            System.out.println(" - "+topic.getTopic()+" by "+topic.getUsername());
+            log.info(" - "+topic.getTopic()+" by "+topic.getUsername());
         }
         
         String testUrl = "";
-        System.out.println("Current Documents on "+testTopic+":");
+        log.info("Current Documents on "+testTopic+":");
         List<Document> documents = conn.listDocumentsByTopic(testTopic, "Test");
         for(Document document : documents)
         {
             testUrl = document.getUrl();
-            System.out.println(" - "+document.getTopic()+" : "+document.getUrl());
+            log.info(" - "+document.getTopic()+" : "+document.getUrl());
         }
         
-        System.out.println("Getting full text for url:");
+        log.info("Getting full text for url:");
         Document document = conn.getDocument(testUrl, "Test");
-        System.out.println(document.getText());
+        log.info(document.getText());
         
-        System.out.println("Listing weblinks for topic "+testTopic+":");
+        log.info("Listing weblinks for topic "+testTopic+":");
         for(String url : conn.listWebLinksByTopic(testTopic, "Test")) {
-            System.out.println(" - "+url);
+            log.info(" - "+url);
         }
     }
 }

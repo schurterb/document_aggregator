@@ -1,0 +1,6 @@
+/home/ubuntu/workspace/document_aggregator/src/main/java/webserver/resources/Document.java
+/home/ubuntu/workspace/document_aggregator/src/main/java/webserver/test/DBConnectionTest.java
+/home/ubuntu/workspace/document_aggregator/src/main/java/webserver/database/DynamoDBConnection.java
+/home/ubuntu/workspace/document_aggregator/src/main/java/webserver/resources/Summary.java
+/home/ubuntu/workspace/document_aggregator/src/main/java/webserver/resources/Topic.java
+/home/ubuntu/workspace/document_aggregator/src/main/java/webserver/database/DatabaseConnection.java

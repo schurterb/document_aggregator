@@ -2,10 +2,11 @@
 
 files=(`find ~/.m2/repository | grep -v .jar. | grep .jar`)
 
-classpath=$1
+classpath="/home/ubuntu/workspace/document_aggregator/config:"$1
 for file in "${files[@]}"
 do
    classpath=$classpath:$file
 done
 
+# java -cp $classpath -Dlog4j.configurationFile=file:"/home/ubuntu/workspace/document_aggregator/config/log4j2.properties" $2 "${@:3}"
 java -cp $classpath $2 "${@:3}"

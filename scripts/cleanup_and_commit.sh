@@ -3,10 +3,11 @@
 #clean up stuff we don't want to commit'
 . cleanup_virtual_env.sh $1
 rm -rf python
-rm -rf __pycache__ web/__pycache__ scraper/__pycache__
+rm -rf __pycache__ src/main/python/scraper/__pycache__
 rm -f *zip web/*zip scraper/*zip
 rm -f *log web/*log scraper/*log bin/*log
 rm -rf bin/locales
+rm -rf targets
 
 #Only commit changes if there is a comment to commit with
 git add * -A

@@ -1,0 +1,6 @@
+webserver/database/DynamoDBConnection.class
+webserver/resources/Document.class
+webserver/test/DBConnectionTest.class
+webserver/database/DatabaseConnection.class
+webserver/resources/Summary.class
+webserver/resources/Topic.class
