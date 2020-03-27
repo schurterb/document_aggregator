@@ -30,7 +30,7 @@ def injectLambdaCodeIntoYAML(yamlFile, filesToInject):
                     try:
                         with open(filesToInject[lambdaName], 'r') as f:
                             # code = { 'ZipFile': literal(f.read().encode("utf-8")) }
-                            code = { 'ZipFile': { 'Fn::Join' : f.readlines() } }
+                            code = { 'ZipFile': { 'Fn::Join' : [ '', f.readlines() ] } }
                             yamlData['Resources'][lambdaName]['Properties']['Code'] = code
                         # with open(filesToInject[lambdaName], 'r') as f:
                         #     yamlData['Resources'][lambdaName]['Properties']['Code']['ZipFile'] = literal(f.read())
