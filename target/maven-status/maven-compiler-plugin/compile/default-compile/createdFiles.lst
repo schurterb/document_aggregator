@@ -1,6 +1,13 @@
 webserver/database/DynamoDBConnection.class
 webserver/resources/Document.class
+webserver/http/messages/WebsocketResponse.class
+webserver/http/websocket/AggregatorServlet.class
+webserver/http/websocket/AggregatorSocket.class
 webserver/test/DBConnectionTest.class
-webserver/database/DatabaseConnection.class
-webserver/resources/Summary.class
+webserver/http/messages/WebsocketRequest.class
+webserver/http/WebsocketServer.class
 webserver/resources/Topic.class
+webserver/database/DatabaseConnection.class
+webserver/util/IObservable.class
+webserver/resources/Summary.class
+webserver/util/IObserver.class

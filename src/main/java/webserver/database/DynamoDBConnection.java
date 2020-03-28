@@ -26,7 +26,7 @@ import webserver.resources.*;
 public class DynamoDBConnection implements DatabaseConnection {
     
     // -- Data Fields --
-    private static final Logger _logger = LogManager.getLogger("DynamoDBConnection");
+    private static final Logger _logger = LogManager.getLogger(DynamoDBConnection.class);
     
     private AmazonDynamoDB _client = null;
     

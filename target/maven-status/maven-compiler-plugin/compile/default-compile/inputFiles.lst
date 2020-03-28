@@ -1,6 +1,14 @@
-/home/ubuntu/workspace/document_aggregator/src/main/java/webserver/resources/Document.java
+/home/ubuntu/workspace/document_aggregator/src/main/java/webserver/util/IObserver.java
 /home/ubuntu/workspace/document_aggregator/src/main/java/webserver/test/DBConnectionTest.java
+/home/ubuntu/workspace/document_aggregator/src/main/java/webserver/http/handlers/AbstractHandler.java
+/home/ubuntu/workspace/document_aggregator/src/main/java/webserver/http/websocket/AggregatorSocket.java
 /home/ubuntu/workspace/document_aggregator/src/main/java/webserver/database/DynamoDBConnection.java
+/home/ubuntu/workspace/document_aggregator/src/main/java/webserver/http/WebsocketServer.java
+/home/ubuntu/workspace/document_aggregator/src/main/java/webserver/util/IObservable.java
+/home/ubuntu/workspace/document_aggregator/src/main/java/webserver/http/messages/WebsocketRequest.java
+/home/ubuntu/workspace/document_aggregator/src/main/java/webserver/http/messages/WebsocketResponse.java
+/home/ubuntu/workspace/document_aggregator/src/main/java/webserver/http/websocket/AggregatorServlet.java
+/home/ubuntu/workspace/document_aggregator/src/main/java/webserver/resources/Document.java
 /home/ubuntu/workspace/document_aggregator/src/main/java/webserver/resources/Summary.java
 /home/ubuntu/workspace/document_aggregator/src/main/java/webserver/resources/Topic.java
 /home/ubuntu/workspace/document_aggregator/src/main/java/webserver/database/DatabaseConnection.java
