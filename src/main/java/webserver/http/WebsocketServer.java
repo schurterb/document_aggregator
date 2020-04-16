@@ -9,6 +9,7 @@ import org.eclipse.jetty.websocket.server.WebSocketHandler;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.Handler;
+import org.eclipse.jetty.servlet.ServletHolder;
 
 import org.eclipse.jetty.server.SecureRequestCustomizer;
 import org.eclipse.jetty.server.SslConnectionFactory;
@@ -24,6 +25,8 @@ import java.util.EnumSet;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import webserver.http.websocket.AggregatorServlet;
 
 public class WebsocketServer {
     
@@ -63,7 +66,7 @@ public class WebsocketServer {
         _rootContext.setContextPath("/");
         _server.setHandler(_rootContext);
         
-        _websocketHolder = new ServletHolder("ws", WebsocketServlet.class);
+        _websocketHolder = new ServletHolder("ws", AggregatorServlet.class);
         _rootContext.addServlet(_websocketHolder, "/*");
     }
     
